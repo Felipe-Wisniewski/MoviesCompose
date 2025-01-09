@@ -1,23 +1,24 @@
 [versions]
 agp = "8.7.3"
-kotlin = "2.0.21"
+kotlin = "2.1.0"
+kotlinxSerializationJson = "1.8.0"
 coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.9.3"
-composeBom = "2024.11.00"
-jetbrainsKotlinJvm = "2.0.0"
+composeBom = "2024.12.01"
+jetbrainsKotlinJvm = "2.1.0"
 retrofit = "2.11.0"
 gson = "2.11.0"
 okhttp-profiler = "1.1.1"
-dagger-hilt = "2.53.1"
+dagger-hilt = "2.54"
 hilt-navigation-compose = "1.2.0"
-ksp-plugin = "2.0.21-1.0.27"
-paging-version = "3.3.4"
+ksp-plugin = "2.1.0-1.0.29"
+paging-version = "3.3.5"
 glide = "1.0.0-beta01"
-navigation-compose = "2.8.4"
+navigation-compose = "2.8.5"
 appcompat = "1.7.0"
 material = "1.12.0"
 
@@ -49,11 +50,13 @@ glide = { group = "com.github.bumptech.glide", name = "compose", version.ref = "
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation-compose" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 ksp-plugin = { id = "com.google.devtools.ksp", version.ref = "ksp-plugin" }

@@ -1,21 +1,14 @@
-import java.util.Properties
-
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp.plugin)
     alias(libs.plugins.dagger.hilt)
-    id("kotlin-parcelize")
 }
 
-val properties = Properties()
-properties.load(project.rootProject.file("local.properties").inputStream())
-val baseUrl = properties["base-url"]
-val bearToken = properties["token"]
-val apiKey = properties["api-key"]
-
 android {
-    namespace = "com.wisnitech.data"
+    namespace = "com.wisnitech.moviescompose.ui"
     compileSdk = 35
 
     defaultConfig {
@@ -23,10 +16,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-
-        buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
-        buildConfigField("String", "BEAR_TOKEN", "\"$bearToken\"")
-        buildConfigField("String", "API_KEY", "\"$apiKey\"")
     }
 
     buildTypes {
@@ -40,7 +29,7 @@ android {
     }
 
     buildFeatures {
-        buildConfig = true
+        compose = true
     }
 
     compileOptions {
@@ -54,19 +43,23 @@ android {
 }
 
 dependencies {
+    implementation(project(":data"))
 
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
+    implementation(libs.kotlinx.serialization.json)
 
+    implementation(libs.navigation.compose)
     implementation(libs.paging)
-
-    implementation(libs.retrofit)
-    implementation(libs.converter.gson)
-    implementation(libs.gson)
-    implementation(libs.okhttp.profiler)
+    implementation(libs.paging.compose)
 
     implementation(libs.dagger.hilt)
+    implementation(libs.hilt.navigation.compose)
     ksp(libs.dagger.ksp)
 
     testImplementation(libs.junit)

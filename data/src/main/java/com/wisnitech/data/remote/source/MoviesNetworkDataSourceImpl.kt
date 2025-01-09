@@ -4,9 +4,11 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class MoviesNetworkDataSourceImpl @Inject constructor(private val api: MoviesNetworkDataSource) {
+internal class MoviesNetworkDataSourceImpl @Inject constructor(
+    private val api: MoviesApi
+) : MoviesNetworkDataSource {
 
-    suspend fun loadPopularMovies(page: Int) = api.loadPopularMovies(page)
+    override suspend fun loadPopularMovies(page: Int) = api.loadPopularMovies(page)
 
-    suspend fun loadTopRatedMovies(page: Int) = api.loadTopRatedMovies(page)
+    override suspend fun loadTopRatedMovies(page: Int) = api.loadTopRatedMovies(page)
 }

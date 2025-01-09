@@ -3,14 +3,14 @@ package com.wisnitech.data.repositories
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.wisnitech.data.models.Movie
-import com.wisnitech.data.remote.source.MoviesNetworkDataSourceImpl
+import com.wisnitech.data.remote.source.MoviesNetworkDataSource
 import com.wisnitech.data.remote.utils.NetworkResult
 import com.wisnitech.data.remote.utils.handleApiCall
 import java.io.IOException
 
 internal class MoviesPagingSource(
     private val call: MoviesCall,
-    private val moviesDataSource: MoviesNetworkDataSourceImpl
+    private val moviesDataSource: MoviesNetworkDataSource
 ) : PagingSource<Int, Movie>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
