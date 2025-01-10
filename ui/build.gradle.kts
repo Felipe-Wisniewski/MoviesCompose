@@ -58,6 +58,9 @@ dependencies {
     implementation(libs.paging)
     implementation(libs.paging.compose)
 
+    implementation(libs.coil.kt)
+    implementation(libs.coil.okhttp)
+
     implementation(libs.dagger.hilt)
     implementation(libs.hilt.navigation.compose)
     ksp(libs.dagger.ksp)

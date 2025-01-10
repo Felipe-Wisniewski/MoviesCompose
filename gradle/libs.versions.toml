@@ -1,25 +1,26 @@
 [versions]
+activityCompose = "1.9.3"
 agp = "8.7.3"
+appcompat = "1.7.0"
+coil = "3.0.4"
+composeBom = "2024.12.01"
+coreKtx = "1.15.0"
+dagger-hilt = "2.54"
+espressoCore = "3.6.1"
 kotlin = "2.1.0"
 kotlinxSerializationJson = "1.8.0"
-coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
-espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
-activityCompose = "1.9.3"
-composeBom = "2024.12.01"
 jetbrainsKotlinJvm = "2.1.0"
 retrofit = "2.11.0"
 gson = "2.11.0"
 okhttp-profiler = "1.1.1"
-dagger-hilt = "2.54"
 hilt-navigation-compose = "1.2.0"
 ksp-plugin = "2.1.0-1.0.29"
 paging-version = "3.3.5"
 glide = "1.0.0-beta01"
 navigation-compose = "2.8.5"
-appcompat = "1.7.0"
 material = "1.12.0"
 
 [libraries]
@@ -38,6 +39,8 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+coil-kt = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
+coil-okhttp = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
 converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 okhttp-profiler = { group = "io.nerdythings", name = "okhttp-profiler", version.ref = "okhttp-profiler" }

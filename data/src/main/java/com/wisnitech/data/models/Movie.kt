@@ -4,6 +4,8 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
+private const val IMAGE_URL = "https://image.tmdb.org/t/p/w1280"
+
 @Parcelize
 data class Movie(
     val id: Int,
@@ -20,7 +22,7 @@ data class Movie(
     val originalLanguage: String,
     val popularity: Float,
     @SerializedName("poster_path")
-    val posterPath: String,
+    val posterPath: String?,
     @SerializedName("release_date")
     val releaseDate: String,
     val video: Boolean,
@@ -28,4 +30,8 @@ data class Movie(
     val voteAverage: Float,
     @SerializedName("vote_count")
     val voteCount: Long
-) : Parcelable
+) : Parcelable {
+
+    fun getPosterUrl(): String? = if (posterPath.isNullOrBlank()) null else IMAGE_URL + posterPath
+
+}
