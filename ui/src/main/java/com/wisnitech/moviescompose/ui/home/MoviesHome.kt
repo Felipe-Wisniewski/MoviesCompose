@@ -40,28 +40,32 @@ fun MoviesHome(viewModel: MoviesHomeViewModel = hiltViewModel()) {
     // verticalScroll(scrollState)
     Column(modifier = Modifier.fillMaxSize()) {
 
-        ListMovies("Popular", popularMovies)
+        HorizontalListMovies("Popular", popularMovies)
 
-        Spacer(modifier = Modifier
-            .fillMaxWidth()
-            .height(16.dp))
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(16.dp)
+        )
 
-        ListMovies("Top Rated", topRatedMovies)
+        HorizontalListMovies("Top Rated", topRatedMovies)
 
     }
 }
 
 @Composable
-fun ListMovies(header: String, movies: LazyPagingItems<Movie>) {
+fun HorizontalListMovies(header: String, movies: LazyPagingItems<Movie>) {
     val textHeader by remember(movies.itemCount) {
         mutableStateOf("$header: ${movies.itemCount}")
     }
 
     Text(modifier = Modifier.padding(start = 16.dp, end = 16.dp), text = textHeader)
 
-    Spacer(modifier = Modifier
-        .fillMaxWidth()
-        .height(4.dp))
+    Spacer(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(4.dp)
+    )
 
     LazyRow(
         modifier = Modifier.height(200.dp),
@@ -74,7 +78,7 @@ fun ListMovies(header: String, movies: LazyPagingItems<Movie>) {
             contentType = movies.itemContentType { "PopularMovie" }
         ) { index ->
             val item = movies[index]
-            item?.let { ItemMovie(it) }
+            item?.let { ItemMovie(it.getPosterUrl(), it.title) }
         }
 
         if (movies.loadState.append == LoadState.Loading) {
@@ -86,15 +90,12 @@ fun ListMovies(header: String, movies: LazyPagingItems<Movie>) {
 }
 
 @Composable
-fun ItemMovie(movie: Movie) {
-    val imageUrl = movie.getPosterUrl()
-
-//    Column {
+fun ItemMovie(imageUrl: String?, description: String) {
     AsyncImage(
+        modifier = Modifier.height(200.dp),
         model = imageUrl,
-        contentDescription = "poster do filme ${movie.title}",
+        contentDescription = "poster do filme $description",
     )
-//    }
 }
 
 @Composable
