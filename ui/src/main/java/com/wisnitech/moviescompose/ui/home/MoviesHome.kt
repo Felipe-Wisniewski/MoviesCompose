@@ -1,16 +1,24 @@
 package com.wisnitech.moviescompose.ui.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,26 +35,52 @@ import com.wisnitech.data.models.Movie
 @Composable
 fun MoviesHome(viewModel: MoviesHomeViewModel = hiltViewModel()) {
     val popularMovies = viewModel.popularMovies.collectAsLazyPagingItems()
+    val topRatedMovies = viewModel.topRatedMovies.collectAsLazyPagingItems()
 
-    Text(modifier = Modifier, text = "Hello Movies! size: ${popularMovies.itemCount}")
+    // verticalScroll(scrollState)
+    Column(modifier = Modifier.fillMaxSize()) {
 
-    PopularMovies(popularMovies)
+        ListMovies("Popular", popularMovies)
 
-    if (popularMovies.loadState.refresh == LoadState.Loading) {
-        LoadingView()
+        Spacer(modifier = Modifier
+            .fillMaxWidth()
+            .height(16.dp))
+
+        ListMovies("Top Rated", topRatedMovies)
+
     }
 }
 
 @Composable
-fun PopularMovies(popularMovies: LazyPagingItems<Movie>) {
-    LazyColumn {
+fun ListMovies(header: String, movies: LazyPagingItems<Movie>) {
+    val textHeader by remember(movies.itemCount) {
+        mutableStateOf("$header: ${movies.itemCount}")
+    }
+
+    Text(modifier = Modifier.padding(start = 16.dp, end = 16.dp), text = textHeader)
+
+    Spacer(modifier = Modifier
+        .fillMaxWidth()
+        .height(4.dp))
+
+    LazyRow(
+        modifier = Modifier.height(200.dp),
+        contentPadding = PaddingValues(start = 16.dp, end = 16.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
         items(
-            count = popularMovies.itemCount,
-            key = popularMovies.itemKey { it.id },
-            contentType = popularMovies.itemContentType { "PopularMovie" }
+            count = movies.itemCount,
+            key = movies.itemKey { it.id },
+            contentType = movies.itemContentType { "PopularMovie" }
         ) { index ->
-            val item = popularMovies[index]
+            val item = movies[index]
             item?.let { ItemMovie(it) }
+        }
+
+        if (movies.loadState.append == LoadState.Loading) {
+            item {
+                CircularProgressIndicator(modifier = Modifier.size(32.dp))
+            }
         }
     }
 }
@@ -55,12 +89,12 @@ fun PopularMovies(popularMovies: LazyPagingItems<Movie>) {
 fun ItemMovie(movie: Movie) {
     val imageUrl = movie.getPosterUrl()
 
-    Column {
-        AsyncImage(
-            model = imageUrl,
-            contentDescription = "poster do filme ${movie.title}",
-        )
-    }
+//    Column {
+    AsyncImage(
+        model = imageUrl,
+        contentDescription = "poster do filme ${movie.title}",
+    )
+//    }
 }
 
 @Composable
