@@ -1,6 +1,7 @@
 package com.wisnitech.moviescompose.ui.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -31,16 +32,17 @@ import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import coil3.compose.AsyncImage
 import com.wisnitech.data.models.Movie
+import java.util.UUID
 
 @Composable
-fun MoviesHome(viewModel: MoviesHomeViewModel = hiltViewModel()) {
+fun MoviesHome(viewModel: MoviesHomeViewModel = hiltViewModel(), movieId: (id: Int) -> Unit) {
     val popularMovies = viewModel.popularMovies.collectAsLazyPagingItems()
     val topRatedMovies = viewModel.topRatedMovies.collectAsLazyPagingItems()
 
     // verticalScroll(scrollState)
     Column(modifier = Modifier.fillMaxSize()) {
 
-        HorizontalListMovies("Popular", popularMovies)
+        HorizontalListMovies("Popular", popularMovies) { movieId(it) }
 
         Spacer(
             modifier = Modifier
@@ -48,13 +50,17 @@ fun MoviesHome(viewModel: MoviesHomeViewModel = hiltViewModel()) {
                 .height(16.dp)
         )
 
-        HorizontalListMovies("Top Rated", topRatedMovies)
-
+        HorizontalListMovies("Top Rated", topRatedMovies) { movieId(it) }
     }
 }
 
 @Composable
-fun HorizontalListMovies(header: String, movies: LazyPagingItems<Movie>) {
+fun HorizontalListMovies(
+    header: String,
+    movies: LazyPagingItems<Movie>,
+    movieId: (id: Int) -> Unit
+) {
+
     val textHeader by remember(movies.itemCount) {
         mutableStateOf("$header: ${movies.itemCount}")
     }
@@ -74,11 +80,15 @@ fun HorizontalListMovies(header: String, movies: LazyPagingItems<Movie>) {
     ) {
         items(
             count = movies.itemCount,
-            key = movies.itemKey { it.id },
-            contentType = movies.itemContentType { "PopularMovie" }
+            key = movies.itemKey { "${it.id}-${UUID.randomUUID()}" },  // TODO("remove random")
+            contentType = movies.itemContentType { "Movie" }
         ) { index ->
             val item = movies[index]
-            item?.let { ItemMovie(it.getPosterUrl(), it.title) }
+            item?.let {
+                ItemMovie(it) { id ->
+                    movieId(id)
+                }
+            }
         }
 
         if (movies.loadState.append == LoadState.Loading) {
@@ -90,11 +100,13 @@ fun HorizontalListMovies(header: String, movies: LazyPagingItems<Movie>) {
 }
 
 @Composable
-fun ItemMovie(imageUrl: String?, description: String) {
+fun ItemMovie(movie: Movie, movieId: (id: Int) -> Unit) {
     AsyncImage(
-        modifier = Modifier.height(200.dp),
-        model = imageUrl,
-        contentDescription = "poster do filme $description",
+        modifier = Modifier
+            .height(200.dp)
+            .clickable { movieId(movie.id) },
+        model = movie.getPosterUrl(),
+        contentDescription = "poster do filme ${movie.title}",
     )
 }
 

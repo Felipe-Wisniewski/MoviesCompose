@@ -7,6 +7,10 @@ import kotlinx.serialization.Serializable
 @Serializable
 object MoviesHomeRoute
 
-fun NavGraphBuilder.moviesHomeScreen() {
-    composable<MoviesHomeRoute> { MoviesHome() }
+fun NavGraphBuilder.moviesHomeScreen(movieId: (id: Int) -> Unit) {
+    composable<MoviesHomeRoute> {
+        MoviesHome() {
+            movieId(it)
+        }
+    }
 }

@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.wisnitech.moviescompose.ui.details.MovieDetails
+import com.wisnitech.moviescompose.ui.details.movieDetailsScreen
 import com.wisnitech.moviescompose.ui.home.MoviesHomeRoute
 import com.wisnitech.moviescompose.ui.home.moviesHomeScreen
 
@@ -14,6 +16,11 @@ fun MainNavHost(navController: NavHostController, modifier: Modifier) {
         startDestination = MoviesHomeRoute,
         modifier = modifier
     ) {
-        moviesHomeScreen()
+
+        moviesHomeScreen { id ->
+            navController.navigate(route = MovieDetails(id))
+        }
+
+        movieDetailsScreen()
     }
 }
