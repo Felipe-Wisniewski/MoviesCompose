@@ -23,6 +23,7 @@ import com.wisnitech.moviescompose.navigation.MainNavHost
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MoviesApp() {
+
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
 

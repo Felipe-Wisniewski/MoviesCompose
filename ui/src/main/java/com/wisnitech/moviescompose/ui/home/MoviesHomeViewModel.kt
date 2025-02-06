@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.wisnitech.data.models.Movie
-import com.wisnitech.data.repositories.MoviesRepository
+import com.wisnitech.data.repositories.movies.MoviesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,15 +18,28 @@ class MoviesHomeViewModel @Inject constructor(
     private val repository: MoviesRepository
 ) : ViewModel() {
 
+    private val _topRatedMovies = MutableStateFlow<PagingData<Movie>>(PagingData.empty())
+    val topRatedMovies: StateFlow<PagingData<Movie>> get() = _topRatedMovies
+
     private val _popularMovies = MutableStateFlow<PagingData<Movie>>(PagingData.empty())
     val popularMovies: StateFlow<PagingData<Movie>> get() = _popularMovies
 
-    private val _topRatedMovies = MutableStateFlow<PagingData<Movie>>(PagingData.empty())
-    val topRatedMovies: StateFlow<PagingData<Movie>> get() = _topRatedMovies
+    private val _upcomingMovies = MutableStateFlow<PagingData<Movie>>(PagingData.empty())
+    val upcomingMovies: StateFlow<PagingData<Movie>> get() = _upcomingMovies
 
     init {
         getPopularMovies()
         getTopRatedMovies()
+        getUpcomingMovies()
+    }
+
+    private fun getTopRatedMovies() = viewModelScope.launch {
+        repository.getTopRatedMovies()
+            .distinctUntilChanged()
+            .cachedIn(viewModelScope)
+            .collect {
+                _topRatedMovies.value = it
+            }
     }
 
     private fun getPopularMovies() = viewModelScope.launch {
@@ -38,12 +51,12 @@ class MoviesHomeViewModel @Inject constructor(
             }
     }
 
-    private fun getTopRatedMovies() = viewModelScope.launch {
-        repository.getTopRatedMovies()
+    private fun getUpcomingMovies() = viewModelScope.launch {
+        repository.getUpcomingMovies()
             .distinctUntilChanged()
             .cachedIn(viewModelScope)
             .collect {
-                _topRatedMovies.value = it
+                _upcomingMovies.value = it
             }
     }
 }

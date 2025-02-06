@@ -1,4 +1,4 @@
-package com.wisnitech.data.repositories
+package com.wisnitech.data.repositories.movies
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -12,12 +12,16 @@ class MoviesRepositoryImpl @Inject constructor(
     private val networkDataSource: MoviesNetworkDataSource
 ) : MoviesRepository {
 
+    override suspend fun getTopRatedMovies(): Flow<PagingData<Movie>> {
+        return setPager(MoviesCall.TOP_RATED)
+    }
+
     override suspend fun getPopularMovies(): Flow<PagingData<Movie>> {
         return setPager(MoviesCall.POPULAR)
     }
 
-    override suspend fun getTopRatedMovies(): Flow<PagingData<Movie>> {
-        return setPager(MoviesCall.TOP_RATED)
+    override suspend fun getUpcomingMovies(): Flow<PagingData<Movie>> {
+        return setPager(MoviesCall.UPCOMING)
     }
 
     private fun setPager(call: MoviesCall): Flow<PagingData<Movie>> {

@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,12 +13,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,23 +33,33 @@ import com.wisnitech.data.models.Movie
 import java.util.UUID
 
 @Composable
-fun MoviesHome(viewModel: MoviesHomeViewModel = hiltViewModel(), movieId: (id: Int) -> Unit) {
-    val popularMovies = viewModel.popularMovies.collectAsLazyPagingItems()
+fun MoviesHome(
+    viewModel: MoviesHomeViewModel = hiltViewModel(),
+    onNavigateToDetails: (movieId: Int) -> Unit
+) {
+
     val topRatedMovies = viewModel.topRatedMovies.collectAsLazyPagingItems()
+    val popularMovies = viewModel.popularMovies.collectAsLazyPagingItems()
+    val upcomingMovies = viewModel.upcomingMovies.collectAsLazyPagingItems()
 
-    // verticalScroll(scrollState)
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+    ) {
+        HorizontalListMovies("Top Rated Movies", topRatedMovies) { movieId ->
+            onNavigateToDetails(movieId)
+        }
 
-        HorizontalListMovies("Popular", popularMovies) { movieId(it) }
+        HorizontalListMovies("Popular Movies", popularMovies) { movieId ->
+            onNavigateToDetails(movieId)
+        }
 
-        Spacer(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(16.dp)
-        )
-
-        HorizontalListMovies("Top Rated", topRatedMovies) { movieId(it) }
+        HorizontalListMovies("Upcoming Movies", upcomingMovies) { movieId ->
+            onNavigateToDetails(movieId)
+        }
     }
+
 }
 
 @Composable
@@ -61,16 +69,9 @@ fun HorizontalListMovies(
     movieId: (id: Int) -> Unit
 ) {
 
-    val textHeader by remember(movies.itemCount) {
-        mutableStateOf("$header: ${movies.itemCount}")
-    }
-
-    Text(modifier = Modifier.padding(start = 16.dp, end = 16.dp), text = textHeader)
-
-    Spacer(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(4.dp)
+    Text(
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
+        text = header
     )
 
     LazyRow(

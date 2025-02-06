@@ -11,4 +11,6 @@ internal class MoviesNetworkDataSourceImpl @Inject constructor(
     override suspend fun loadPopularMovies(page: Int) = api.loadPopularMovies(page)
 
     override suspend fun loadTopRatedMovies(page: Int) = api.loadTopRatedMovies(page)
+
+    override suspend fun loadUpcomingMovies(page: Int) = api.loadUpcomingMovies(page)
 }

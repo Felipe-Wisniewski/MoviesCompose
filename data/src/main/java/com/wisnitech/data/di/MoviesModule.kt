@@ -4,8 +4,8 @@ import com.wisnitech.data.remote.retrofit.RetrofitClient
 import com.wisnitech.data.remote.source.MoviesApi
 import com.wisnitech.data.remote.source.MoviesNetworkDataSource
 import com.wisnitech.data.remote.source.MoviesNetworkDataSourceImpl
-import com.wisnitech.data.repositories.MoviesRepository
-import com.wisnitech.data.repositories.MoviesRepositoryImpl
+import com.wisnitech.data.repositories.movies.MoviesRepository
+import com.wisnitech.data.repositories.movies.MoviesRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

@@ -1,4 +1,4 @@
-package com.wisnitech.data.repositories
+package com.wisnitech.data.repositories.movies
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
@@ -19,8 +19,9 @@ internal class MoviesPagingSource(
 
             val response = handleApiCall {
                 when (call) {
-                    MoviesCall.POPULAR -> moviesDataSource.loadPopularMovies(page)
                     MoviesCall.TOP_RATED -> moviesDataSource.loadTopRatedMovies(page)
+                    MoviesCall.POPULAR -> moviesDataSource.loadPopularMovies(page)
+                    MoviesCall.UPCOMING -> moviesDataSource.loadUpcomingMovies(page)
                 }
             }
 
@@ -48,6 +49,7 @@ internal class MoviesPagingSource(
 }
 
 internal enum class MoviesCall {
+    TOP_RATED,
     POPULAR,
-    TOP_RATED
+    UPCOMING
 }
