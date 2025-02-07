@@ -1,12 +1,15 @@
 package com.wisnitech.data.remote.source
 
-import com.wisnitech.data.models.ResponseMovies
+import com.wisnitech.data.models.ResponseTrending
 import retrofit2.Response
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class TrendingNetworkDataSourceImpl(
+@Singleton
+class TrendingNetworkDataSourceImpl @Inject constructor(
     private val api: TrendingApi
 ) : TrendingNetworkDataSource {
 
-    override suspend fun getAllTrending(): Response<ResponseMovies> = api.getAllTrending()
+    override suspend fun getAllTrending(): Response<ResponseTrending> = api.getAllTrending()
 
 }

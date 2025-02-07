@@ -1,31 +1,47 @@
 package com.wisnitech.moviescompose.ui.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.wisnitech.data.models.Movie
+import com.wisnitech.data.models.Trending
 import com.wisnitech.data.repositories.movies.MoviesRepository
+import com.wisnitech.data.repositories.trending.TrendingRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MoviesHomeViewModel @Inject constructor(
-    private val repository: MoviesRepository
+    trendingRepository: TrendingRepository,
+    private val moviesRepository: MoviesRepository
 ) : ViewModel() {
 
+    val trendingMovies: StateFlow<List<Trending>?> = trendingRepository.loadAllTrending()
+        .catch { Log.e("FLMWG", "Error: $it") }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = null
+        )
+
     private val _topRatedMovies = MutableStateFlow<PagingData<Movie>>(PagingData.empty())
-    val topRatedMovies: StateFlow<PagingData<Movie>> get() = _topRatedMovies
+    val topRatedMovies: StateFlow<PagingData<Movie>> = _topRatedMovies
 
     private val _popularMovies = MutableStateFlow<PagingData<Movie>>(PagingData.empty())
-    val popularMovies: StateFlow<PagingData<Movie>> get() = _popularMovies
+    val popularMovies: StateFlow<PagingData<Movie>> = _popularMovies
 
     private val _upcomingMovies = MutableStateFlow<PagingData<Movie>>(PagingData.empty())
-    val upcomingMovies: StateFlow<PagingData<Movie>> get() = _upcomingMovies
+    val upcomingMovies: StateFlow<PagingData<Movie>> = _upcomingMovies
 
     init {
         getPopularMovies()
@@ -34,7 +50,7 @@ class MoviesHomeViewModel @Inject constructor(
     }
 
     private fun getTopRatedMovies() = viewModelScope.launch {
-        repository.getTopRatedMovies()
+        moviesRepository.getTopRatedMovies()
             .distinctUntilChanged()
             .cachedIn(viewModelScope)
             .collect {
@@ -43,7 +59,7 @@ class MoviesHomeViewModel @Inject constructor(
     }
 
     private fun getPopularMovies() = viewModelScope.launch {
-        repository.getPopularMovies()
+        moviesRepository.getPopularMovies()
             .distinctUntilChanged()
             .cachedIn(viewModelScope)
             .collect {
@@ -52,7 +68,7 @@ class MoviesHomeViewModel @Inject constructor(
     }
 
     private fun getUpcomingMovies() = viewModelScope.launch {
-        repository.getUpcomingMovies()
+        moviesRepository.getUpcomingMovies()
             .distinctUntilChanged()
             .cachedIn(viewModelScope)
             .collect {

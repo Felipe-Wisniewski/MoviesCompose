@@ -4,7 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.wisnitech.data.models.Movie
 import com.wisnitech.data.remote.source.MoviesNetworkDataSource
-import com.wisnitech.data.remote.utils.NetworkResult
+import com.wisnitech.data.remote.utils.ApiResult
 import com.wisnitech.data.remote.utils.handleApiCall
 import java.io.IOException
 
@@ -26,7 +26,7 @@ internal class MoviesPagingSource(
             }
 
             when (response) {
-                is NetworkResult.SuccessResult -> {
+                is ApiResult.Success -> {
                     LoadResult.Page(
                         data = response.data.results,
                         prevKey = if (page == 1) null else page - 1,

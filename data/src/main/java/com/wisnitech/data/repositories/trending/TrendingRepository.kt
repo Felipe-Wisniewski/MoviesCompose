@@ -1,8 +1,8 @@
 package com.wisnitech.data.repositories.trending
 
-import com.wisnitech.data.models.Movie
+import com.wisnitech.data.models.Trending
 import kotlinx.coroutines.flow.Flow
 
 interface TrendingRepository {
-    suspend fun loadAllTrending(): Flow<List<Movie>>
+    fun loadAllTrending(): Flow<List<Trending>>
 }

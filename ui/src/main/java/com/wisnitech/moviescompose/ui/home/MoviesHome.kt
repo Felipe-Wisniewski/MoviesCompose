@@ -3,6 +3,7 @@ package com.wisnitech.moviescompose.ui.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,13 +17,23 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.carousel.HorizontalUncontainedCarousel
+import androidx.compose.material3.carousel.rememberCarouselState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -30,6 +41,7 @@ import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import coil3.compose.AsyncImage
 import com.wisnitech.data.models.Movie
+import com.wisnitech.data.models.Trending
 import java.util.UUID
 
 @Composable
@@ -37,29 +49,66 @@ fun MoviesHome(
     viewModel: MoviesHomeViewModel = hiltViewModel(),
     onNavigateToDetails: (movieId: Int) -> Unit
 ) {
-
+    val trendingMovies by viewModel.trendingMovies.collectAsStateWithLifecycle()
     val topRatedMovies = viewModel.topRatedMovies.collectAsLazyPagingItems()
     val popularMovies = viewModel.popularMovies.collectAsLazyPagingItems()
     val upcomingMovies = viewModel.upcomingMovies.collectAsLazyPagingItems()
 
-    Column(
+    if (!trendingMovies.isNullOrEmpty()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) {
+            TrendingCarrousel(trendingMovies!!)
+
+            HorizontalListMovies("Top Rated Movies", topRatedMovies) { movieId ->
+                onNavigateToDetails(movieId)
+            }
+
+            HorizontalListMovies("Popular Movies", popularMovies) { movieId ->
+                onNavigateToDetails(movieId)
+            }
+
+            HorizontalListMovies("Upcoming Movies", upcomingMovies) { movieId ->
+                onNavigateToDetails(movieId)
+            }
+        }
+    } else {
+        LoadingView()
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TrendingCarrousel(trendingMovies: List<Trending>) {
+    var size by remember { mutableStateOf(0.dp) }
+    val density = LocalDensity.current
+
+    HorizontalUncontainedCarousel(
+        state = rememberCarouselState { trendingMovies.count() },
         modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-    ) {
-        HorizontalListMovies("Top Rated Movies", topRatedMovies) { movieId ->
-            onNavigateToDetails(movieId)
-        }
+            .fillMaxWidth()
+            .onGloballyPositioned { coordinates ->
+                size = with(density) {
+                    coordinates.size.width.toDp()
+                }
+            },
+        itemWidth = size
+    ) { i ->
+        val item = trendingMovies[i]
+        val itemName = item.getName()
 
-        HorizontalListMovies("Popular Movies", popularMovies) { movieId ->
-            onNavigateToDetails(movieId)
-        }
+        Box(modifier = Modifier.background(Color.Green)) {
+            AsyncImage(
+                modifier = Modifier.fillMaxSize(),
+                model = item.getBackdropUrl(),
+                contentDescription = itemName,
+            )
 
-        HorizontalListMovies("Upcoming Movies", upcomingMovies) { movieId ->
-            onNavigateToDetails(movieId)
+            Text(itemName)
         }
     }
-
 }
 
 @Composable

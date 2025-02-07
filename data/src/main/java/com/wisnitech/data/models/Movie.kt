@@ -12,8 +12,12 @@ data class Movie(
     val title: String,
     @SerializedName("poster_path")
     val posterPath: String?,
+    @SerializedName("backdrop_path")
+    val backdropPath:String?
 ) : Parcelable {
 
     fun getPosterUrl(): String? = if (posterPath.isNullOrBlank()) null else IMAGE_URL + posterPath
+
+
 
 }

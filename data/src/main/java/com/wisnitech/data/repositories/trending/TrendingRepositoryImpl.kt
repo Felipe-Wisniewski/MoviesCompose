@@ -1,17 +1,38 @@
 package com.wisnitech.data.repositories.trending
 
-import com.wisnitech.data.models.Movie
-import com.wisnitech.data.remote.source.TrendingApi
+import com.wisnitech.data.models.Trending
+import com.wisnitech.data.remote.source.TrendingNetworkDataSource
+import com.wisnitech.data.remote.utils.ApiResult
+import com.wisnitech.data.remote.utils.handleApiCall
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class TrendingRepositoryImpl(private val api: TrendingApi) : TrendingRepository {
+class TrendingRepositoryImpl @Inject constructor(
+    private val trendingNetworkDataSource: TrendingNetworkDataSource
+) : TrendingRepository {
 
-    override suspend fun loadAllTrending(): Flow<List<Movie>> {
+    override fun loadAllTrending(): Flow<List<Trending>> {
         return flow {
-            val result = api.getAllTrending()
-            result.body()?.results?.let {
-                emit(it)
+            try {
+                val result = handleApiCall { trendingNetworkDataSource.getAllTrending() }
+
+                when (result) {
+                    is ApiResult.Success -> {
+                        emit(result.data.results)
+                    }
+
+                    is ApiResult.Error -> {
+                        throw Exception("code:${result.code},message:${result.errorMsg}")
+                    }
+
+                    else -> {
+                        throw Exception("An error occurred in the fun loadAllTrending")
+                    }
+                }
+
+            } catch (e: Exception) {
+                throw Exception(e)
             }
         }
     }
