@@ -41,7 +41,6 @@ import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import coil3.compose.AsyncImage
 import com.wisnitech.data.models.Movie
-import com.wisnitech.data.models.Trending
 import java.util.UUID
 
 @Composable
@@ -49,64 +48,69 @@ fun MoviesHome(
     viewModel: MoviesHomeViewModel = hiltViewModel(),
     onNavigateToDetails: (movieId: Int) -> Unit
 ) {
-    val trendingMovies by viewModel.trendingMovies.collectAsStateWithLifecycle()
+    val trendingUiState by viewModel.trendingUiState.collectAsStateWithLifecycle()
     val topRatedMovies = viewModel.topRatedMovies.collectAsLazyPagingItems()
     val popularMovies = viewModel.popularMovies.collectAsLazyPagingItems()
     val upcomingMovies = viewModel.upcomingMovies.collectAsLazyPagingItems()
 
-    if (!trendingMovies.isNullOrEmpty()) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-        ) {
-            TrendingCarrousel(trendingMovies!!)
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+    ) {
+        TrendingCarrousel(trendingUiState)
 
-            HorizontalListMovies("Top Rated Movies", topRatedMovies) { movieId ->
-                onNavigateToDetails(movieId)
-            }
-
-            HorizontalListMovies("Popular Movies", popularMovies) { movieId ->
-                onNavigateToDetails(movieId)
-            }
-
-            HorizontalListMovies("Upcoming Movies", upcomingMovies) { movieId ->
-                onNavigateToDetails(movieId)
-            }
+        HorizontalListMovies("Top Rated Movies", topRatedMovies) { movieId ->
+            onNavigateToDetails(movieId)
         }
-    } else {
-        LoadingView()
+
+        HorizontalListMovies("Popular Movies", popularMovies) { movieId ->
+            onNavigateToDetails(movieId)
+        }
+
+        HorizontalListMovies("Upcoming Movies", upcomingMovies) { movieId ->
+            onNavigateToDetails(movieId)
+        }
     }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TrendingCarrousel(trendingMovies: List<Trending>) {
+fun TrendingCarrousel(trendingUiState: TrendingUiState) {
+
     var size by remember { mutableStateOf(0.dp) }
     val density = LocalDensity.current
 
-    HorizontalUncontainedCarousel(
-        state = rememberCarouselState { trendingMovies.count() },
-        modifier = Modifier
-            .fillMaxWidth()
-            .onGloballyPositioned { coordinates ->
-                size = with(density) {
-                    coordinates.size.width.toDp()
+    when (trendingUiState) {
+        is TrendingUiState.Loading -> LoadingView()
+
+        is TrendingUiState.Success -> {
+            val trendingMovies = trendingUiState.trending
+
+            HorizontalUncontainedCarousel(
+                state = rememberCarouselState { trendingMovies.count() },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .onGloballyPositioned { coordinates ->
+                        size = with(density) {
+                            coordinates.size.width.toDp()
+                        }
+                    },
+                itemWidth = size
+            ) { i ->
+                val item = trendingMovies[i]
+                val itemName = item.getName()
+
+                Box(modifier = Modifier.background(Color.Green)) {
+                    AsyncImage(
+                        modifier = Modifier.fillMaxSize(),
+                        model = item.getBackdropUrl(),
+                        contentDescription = itemName,
+                    )
+                    Text(itemName)
                 }
-            },
-        itemWidth = size
-    ) { i ->
-        val item = trendingMovies[i]
-        val itemName = item.getName()
-
-        Box(modifier = Modifier.background(Color.Green)) {
-            AsyncImage(
-                modifier = Modifier.fillMaxSize(),
-                model = item.getBackdropUrl(),
-                contentDescription = itemName,
-            )
-
-            Text(itemName)
+            }
         }
     }
 }

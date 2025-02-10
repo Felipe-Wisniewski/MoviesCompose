@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
@@ -26,12 +27,12 @@ class MoviesHomeViewModel @Inject constructor(
     private val moviesRepository: MoviesRepository
 ) : ViewModel() {
 
-    val trendingMovies: StateFlow<List<Trending>?> = trendingRepository.loadAllTrending()
-        .catch { Log.e("FLMWG", "Error: $it") }
+    val trendingUiState: StateFlow<TrendingUiState> = trendingRepository.loadAllTrending()
+        .map(TrendingUiState::Success)
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = null
+            initialValue = TrendingUiState.Loading
         )
 
     private val _topRatedMovies = MutableStateFlow<PagingData<Movie>>(PagingData.empty())
