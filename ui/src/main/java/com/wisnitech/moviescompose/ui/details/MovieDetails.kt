@@ -1,5 +1,6 @@
 package com.wisnitech.moviescompose.ui.details
 
+import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -10,11 +11,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.Close
-import androidx.compose.material.icons.outlined.PlayArrow
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material3.Icon
@@ -28,15 +28,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.wisnitech.data.models.MovieDetails
+import com.wisnitech.moviescompose.ui.R
 import com.wisnitech.moviescompose.ui.common.LoadingView
 
 @Composable
@@ -66,7 +70,11 @@ fun DetailsScreen(movieDetails: MovieDetails) {
                 .fillMaxSize()
                 .padding(all = 16.dp)
         ) {
-            Text(text = movieDetails.title ?: "")
+            TaglineText(movieDetails.tagline ?: "")
+
+            TitleText(movieDetails.title ?: "")
+
+            IncludedStreams()
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -98,6 +106,52 @@ fun MovieImage(title: String, imageUrl: String?) {
     )
 }
 
+@Preview
+@Composable
+fun TaglineText(tagline: String = "Whoever saves one life, saves the world entire.") {
+    Text(
+        text = tagline,
+        fontFamily = FontFamily.Default,
+        fontSize = 18.sp
+    )
+}
+
+@Preview
+@Composable
+fun TitleText(title: String = "Schindler's List") {
+    Text(
+        text = title,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp),
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Bold,
+        fontSize = 24.sp
+    )
+}
+
+@Preview
+@Composable
+fun IncludedStreams() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.ic_check_circle),
+            "",
+            modifier = Modifier.size(20.dp)
+        )
+        Text(
+            text = "Included with prime",
+            modifier = Modifier.padding(start = 4.dp),
+            fontSize = 11.sp
+        )
+    }
+}
+
 @Composable
 fun OptionsButtons() {
     Row(
@@ -106,7 +160,7 @@ fun OptionsButtons() {
             .horizontalScroll(rememberScrollState()),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        OptionButton(Icons.Outlined.PlayArrow, "Trailer") {
+        OptionButton(ImageVector.vectorResource(R.drawable.ic_movie), "Trailer") {
 
         }
 
@@ -118,7 +172,7 @@ fun OptionsButtons() {
 
         }
 
-        OptionButton(Icons.Outlined.Close, "Not for me") {
+        OptionButton(ImageVector.vectorResource(R.drawable.ic_thumb_down), "Not for me") {
 
         }
 

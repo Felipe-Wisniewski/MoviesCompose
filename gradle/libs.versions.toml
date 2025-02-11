@@ -1,9 +1,9 @@
 [versions]
-activityCompose = "1.9.3"
+activityCompose = "1.10.0"
 agp = "8.7.3"
 appcompat = "1.7.0"
 coil = "3.0.4"
-composeBom = "2024.12.01"
+composeBom = "2025.01.01"
 coreKtx = "1.15.0"
 dagger-hilt = "2.54"
 espressoCore = "3.6.1"
@@ -20,7 +20,7 @@ hilt-navigation-compose = "1.2.0"
 ksp-plugin = "2.1.0-1.0.29"
 paging-version = "3.3.5"
 glide = "1.0.0-beta01"
-navigation-compose = "2.8.5"
+navigation-compose = "2.8.6"
 material = "1.12.0"
 
 [libraries]
