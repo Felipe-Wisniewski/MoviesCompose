@@ -1,8 +1,10 @@
 package com.wisnitech.data.remote.source
 
+import com.wisnitech.data.models.MovieDetails
 import com.wisnitech.data.models.ResponseMovies
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MoviesApi {
@@ -15,4 +17,7 @@ interface MoviesApi {
 
     @GET("movie/upcoming")
     suspend fun loadUpcomingMovies(@Query("page") page: Int): Response<ResponseMovies>
+
+    @GET("movie/{movieId}")
+    suspend fun loadMovieDetails(@Path("movieId") movieId: Int): Response<MovieDetails>
 }

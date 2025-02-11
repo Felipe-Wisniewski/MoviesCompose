@@ -18,17 +18,9 @@ class TrendingRepositoryImpl @Inject constructor(
                 val result = handleApiCall { trendingNetworkDataSource.getAllTrending() }
 
                 when (result) {
-                    is ApiResult.Success -> {
-                        emit(result.data.results)
-                    }
-
-                    is ApiResult.Error -> {
-                        throw Exception("code:${result.code},message:${result.errorMsg}")
-                    }
-
-                    else -> {
-                        throw Exception("An error occurred in the fun loadAllTrending")
-                    }
+                    is ApiResult.Success -> emit(result.data.results)
+                    is ApiResult.Error -> throw Exception("code:${result.code},message:${result.errorMsg}")
+                    else -> throw Exception("An error occurred in the fun loadAllTrending")
                 }
 
             } catch (e: Exception) {
@@ -36,5 +28,4 @@ class TrendingRepositoryImpl @Inject constructor(
             }
         }
     }
-
 }

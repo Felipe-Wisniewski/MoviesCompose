@@ -41,6 +41,7 @@ import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import coil3.compose.AsyncImage
 import com.wisnitech.data.models.Movie
+import com.wisnitech.moviescompose.ui.common.LoadingView
 import java.util.UUID
 
 @Composable
@@ -162,28 +163,4 @@ fun ItemMovie(movie: Movie, movieId: (id: Int) -> Unit) {
         model = movie.getPosterUrl(),
         contentDescription = "poster do filme ${movie.title}",
     )
-}
-
-@Composable
-fun LoadingView() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-            .wrapContentHeight(Alignment.CenterVertically)
-    ) {
-        CircularProgressIndicator(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentWidth(Alignment.CenterHorizontally),
-            color = Color.Red
-        )
-        Text(
-            text = "Loading...",
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth()
-                .wrapContentWidth(Alignment.CenterHorizontally)
-        )
-    }
 }

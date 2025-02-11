@@ -3,7 +3,6 @@ package com.wisnitech.moviescompose.ui.home
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
 import com.wisnitech.moviescompose.ui.details.MovieDetailsScreen
 import kotlinx.serialization.Serializable
 
@@ -11,18 +10,17 @@ import kotlinx.serialization.Serializable
 object MoviesHomeRoute
 
 @Serializable
-data class MovieDetails(val movieId: Int)
+data class MovieDetailsRoute(val movieId: Int)
 
 fun NavGraphBuilder.moviesHomeNavGraph(navController: NavHostController) {
 
     composable<MoviesHomeRoute> {
         MoviesHome { movieId ->
-            navController.navigate(route = MovieDetails(movieId))
+            navController.navigate(route = MovieDetailsRoute(movieId))
         }
     }
 
-    composable<MovieDetails> { backStackEntry ->
-        val movieDetails : MovieDetails = backStackEntry.toRoute()
-        MovieDetailsScreen(movieDetails.movieId)
+    composable<MovieDetailsRoute> {
+        MovieDetailsScreen()
     }
 }

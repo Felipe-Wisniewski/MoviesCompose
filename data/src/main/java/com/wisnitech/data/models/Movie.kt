@@ -18,6 +18,4 @@ data class Movie(
 
     fun getPosterUrl(): String? = if (posterPath.isNullOrBlank()) null else IMAGE_URL + posterPath
 
-
-
 }
