@@ -1,6 +1,8 @@
 package com.wisnitech.data.repositories.trending
 
-import com.wisnitech.data.models.Trending
+import com.wisnitech.data.model.Trending
+import com.wisnitech.data.remote.model.NetworkTrending
+import com.wisnitech.data.remote.model.asExternalModel
 import com.wisnitech.data.remote.source.TrendingNetworkDataSource
 import com.wisnitech.data.remote.utils.ApiResult
 import com.wisnitech.data.remote.utils.handleApiCall
@@ -18,7 +20,7 @@ class TrendingRepositoryImpl @Inject constructor(
                 val result = handleApiCall { trendingNetworkDataSource.getAllTrending() }
 
                 when (result) {
-                    is ApiResult.Success -> emit(result.data.results)
+                    is ApiResult.Success -> emit(result.data.results.map(NetworkTrending::asExternalModel))
                     is ApiResult.Error -> throw Exception("code:${result.code},message:${result.errorMsg}")
                     else -> throw Exception("An error occurred in the fun loadAllTrending")
                 }

@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.wisnitech.data.models.Movie
-import com.wisnitech.data.models.Trending
+import com.wisnitech.data.model.Movie
+import com.wisnitech.data.model.Trending
 import com.wisnitech.data.repositories.movies.MoviesRepository
 import com.wisnitech.data.repositories.trending.TrendingRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

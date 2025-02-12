@@ -1,6 +1,6 @@
 package com.wisnitech.moviescompose.ui.home
 
-import com.wisnitech.data.models.Trending
+import com.wisnitech.data.model.Trending
 
 sealed interface TrendingUiState {
     data object Loading : TrendingUiState

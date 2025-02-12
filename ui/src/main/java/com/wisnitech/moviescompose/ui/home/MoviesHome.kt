@@ -40,7 +40,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import coil3.compose.AsyncImage
-import com.wisnitech.data.models.Movie
+import com.wisnitech.data.model.Movie
 import com.wisnitech.moviescompose.ui.common.LoadingView
 import java.util.UUID
 

@@ -1,13 +1,9 @@
-package com.wisnitech.data.models
+package com.wisnitech.data.remote.model
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
+import com.wisnitech.data.model.MovieDetails
 
-private const val IMAGE_URL = "https://image.tmdb.org/t/p/w1280"
-
-@Parcelize
-data class MovieDetails(
+data class ResponseMovieDetails(
     val id: Int,
     val title: String?,
     val overview: String?,
@@ -17,7 +13,6 @@ data class MovieDetails(
     val posterPath: String?,
     @SerializedName("backdrop_path")
     val backdropPath: String?,
-    val video: Boolean = false,
     @SerializedName("release_date")
     val releaseDate: String?,
     @SerializedName("original_language")
@@ -30,14 +25,30 @@ data class MovieDetails(
     val voteAverage: Float?,
     @SerializedName("vote_count")
     val voteCount: Int?,
-    val genres: List<MovieGenres>?
-) : Parcelable {
+    val genres: List<NetworkGenres>?
+)
 
-    fun getBackdropUrl(): String? = if (backdropPath.isNullOrBlank()) null else IMAGE_URL + backdropPath
-
-}
+fun ResponseMovieDetails.asExternalModel() = MovieDetails(
+    id = id,
+    title = title,
+    overview = overview,
+    tagline = tagline,
+    status = status,
+    posterPath = posterPath,
+    backdropPath = backdropPath,
+    releaseDate = releaseDate,
+    originalLanguage = originalLanguage,
+    homepage = homepage,
+    budget = budget,
+    revenue = revenue,
+    popularity = popularity,
+    voteAverage = voteAverage,
+    voteCount = voteCount,
+    genres = genres?.map { it.name }
+)
 
 // other calls
+//
 // recommendation list (movieId)
 //
 // credits.cast > acting

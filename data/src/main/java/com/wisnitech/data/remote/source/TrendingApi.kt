@@ -1,6 +1,6 @@
 package com.wisnitech.data.remote.source
 
-import com.wisnitech.data.models.ResponseTrending
+import com.wisnitech.data.remote.model.ResponseTrending
 import retrofit2.Response
 import retrofit2.http.GET
 

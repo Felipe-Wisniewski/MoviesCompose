@@ -1,12 +1,9 @@
-package com.wisnitech.data.models
+package com.wisnitech.data.model
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
 
 private const val IMAGE_URL = "https://image.tmdb.org/t/p/w1280"
 
-@Parcelize
 data class Trending(
     val id: Int,
     @SerializedName("name")
@@ -17,7 +14,7 @@ data class Trending(
     val mediaType: MediaType,
     @SerializedName("backdrop_path")
     val backdropPath: String?
-) : Parcelable {
+)  {
 
     fun getName() = when (mediaType) {
         MediaType.TV -> tvShowName ?: ""
