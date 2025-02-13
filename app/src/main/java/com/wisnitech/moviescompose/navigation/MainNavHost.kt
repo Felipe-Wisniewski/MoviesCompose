@@ -8,14 +8,19 @@ import com.wisnitech.moviescompose.ui.home.MoviesHomeRoute
 import com.wisnitech.moviescompose.ui.home.moviesHomeNavGraph
 
 @Composable
-fun MainNavHost(navController: NavHostController, modifier: Modifier) {
+fun MainNavHost(
+    navController: NavHostController,
+    showTopAppBar: (show: Boolean) -> Unit,
+    modifier: Modifier
+) {
+
     NavHost(
         navController = navController,
         startDestination = MoviesHomeRoute,
         modifier = modifier
     ) {
 
-        moviesHomeNavGraph(navController)
+        moviesHomeNavGraph(navController) { showTopAppBar(it) }
 
     }
 }

@@ -28,39 +28,46 @@ import com.wisnitech.moviescompose.ui.home.WatchlistScreenRoute
 
 @Composable
 fun MoviesBottomAppBar(navController: NavHostController) {
-    var selectedItem by remember { mutableStateOf(false) }
+    var selectedItem by remember { mutableStateOf(true) }
 
-    NavigationBar {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentDestination = navBackStackEntry?.destination
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = backStackEntry?.destination
 
-        bottomBarItems.forEach { bottomRoute ->
+    val hasBottomBarItem = bottomBarItems.map {
+        currentDestination?.hasRoute(it.route::class) == true
+    }
 
-            selectedItem =
-                currentDestination?.hierarchy?.any { it.hasRoute(bottomRoute.route::class) } == true
+    if (hasBottomBarItem.contains(true)) {
 
-            NavigationBarItem(
-                icon = {
-                    Icon(
-                        if (selectedItem) bottomRoute.iconSelected else bottomRoute.iconUnselected,
-                        contentDescription = bottomRoute.label
-                    )
-                },
-                label = { Text(bottomRoute.label) },
-                selected = selectedItem,
-                onClick = {
-                    navController.navigate(bottomRoute.route) {
+        NavigationBar {
+            bottomBarItems.forEach { bottomRoute ->
 
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
+                selectedItem =
+                    currentDestination?.hierarchy?.any { it.hasRoute(bottomRoute.route::class) } == true
+
+                NavigationBarItem(
+                    icon = {
+                        Icon(
+                            if (selectedItem) bottomRoute.iconSelected else bottomRoute.iconUnselected,
+                            contentDescription = bottomRoute.label
+                        )
+                    },
+                    label = { Text(bottomRoute.label) },
+                    selected = selectedItem,
+                    onClick = {
+                        navController.navigate(bottomRoute.route) {
+
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+
+                            launchSingleTop = true
+                            restoreState = true
                         }
-
-                        launchSingleTop = true
-                        restoreState = true
                     }
-                }
-            )
+                )
 
+            }
         }
     }
 }

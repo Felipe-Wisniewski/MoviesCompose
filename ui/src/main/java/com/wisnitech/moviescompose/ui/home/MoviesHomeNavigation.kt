@@ -25,25 +25,41 @@ data class MovieDetailsRoute(val movieId: Int)
 @Serializable
 data class YouTubeScreenRoute(val movieKey: String)
 
-fun NavGraphBuilder.moviesHomeNavGraph(navController: NavHostController) {
+fun NavGraphBuilder.moviesHomeNavGraph(
+    navController: NavHostController,
+    showTopAppBar: (show: Boolean) -> Unit
+) {
 
     composable<MoviesHomeRoute> {
+        showTopAppBar(true)
+
         MoviesHome { movieId ->
             navController.navigate(route = MovieDetailsRoute(movieId))
         }
     }
 
-    composable<WatchlistScreenRoute> { WatchlistScreen() }
+    composable<WatchlistScreenRoute> {
+        showTopAppBar(true)
+        WatchlistScreen()
+    }
 
-    composable<SearchScreenRoute> { SearchScreen() }
+    composable<SearchScreenRoute> {
+        showTopAppBar(false)
+
+        SearchScreen()
+    }
 
     composable<MovieDetailsRoute> {
+        showTopAppBar(true)
+
         MovieDetailsScreen { movieKey ->
             navController.navigate(route = YouTubeScreenRoute(movieKey))
         }
     }
 
     composable<YouTubeScreenRoute> { backStackEntry  ->
+        showTopAppBar(false
+        )
         val route = backStackEntry.toRoute<YouTubeScreenRoute>()
         YouTubePlayerScreen(route.movieKey)
     }
