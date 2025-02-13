@@ -22,6 +22,7 @@ paging-version = "3.3.5"
 glide = "1.0.0-beta01"
 navigation-compose = "2.8.6"
 material = "1.12.0"
+youtube-player = "12.1.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -54,6 +55,7 @@ navigation-compose = { group = "androidx.navigation", name = "navigation-compose
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+youtube-player = { group= "com.pierfrancescosoffritti.androidyoutubeplayer", name= "custom-ui", version.ref = "youtube-player"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

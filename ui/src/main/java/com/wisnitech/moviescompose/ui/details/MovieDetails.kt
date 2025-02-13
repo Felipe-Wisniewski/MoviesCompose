@@ -43,7 +43,10 @@ import com.wisnitech.moviescompose.ui.R
 import com.wisnitech.moviescompose.ui.common.LoadingView
 
 @Composable
-fun MovieDetailsScreen(viewModel: MovieDetailsViewModel = hiltViewModel()) {
+fun MovieDetailsScreen(
+    viewModel: MovieDetailsViewModel = hiltViewModel(),
+    onNavigateToPlayer: (movieKey: String) -> Unit
+) {
 
     val uiState by viewModel.detailsUiState.collectAsStateWithLifecycle()
 
@@ -53,13 +56,28 @@ fun MovieDetailsScreen(viewModel: MovieDetailsViewModel = hiltViewModel()) {
         }
 
         is MovieDetailsUiState.Success -> {
-            DetailsScreen((uiState as MovieDetailsUiState.Success).movieDetails)
+            val movie = (uiState as MovieDetailsUiState.Success).movieDetails
+            DetailsScreen(
+                onTrailerClick = { onNavigateToPlayer("mxphAlJID9U") },
+                onWatchlistClick = viewModel::saveOrRemoveToWatchlist,
+                onLikeClick = viewModel::setLikeMovie,
+                onUnlikeClick = viewModel::setUnlikeMovie,
+                onShareClick = ::shareMovie,
+                movie
+            )
         }
     }
 }
 
 @Composable
-fun DetailsScreen(movieDetails: MovieDetails) {
+fun DetailsScreen(
+    onTrailerClick: () -> Unit,
+    onWatchlistClick: () -> Unit,
+    onLikeClick: () -> Unit,
+    onUnlikeClick: () -> Unit,
+    onShareClick: () -> Unit,
+    movieDetails: MovieDetails
+) {
 
     Column(modifier = Modifier.fillMaxSize()) {
         MovieImage(movieDetails.title ?: "", movieDetails.getBackdropUrl())
@@ -77,7 +95,13 @@ fun DetailsScreen(movieDetails: MovieDetails) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            OptionsButtons()
+            OptionsButtons(
+                onTrailerClick = { onTrailerClick() },
+                onWatchlistClick = { onWatchlistClick() },
+                onLikeClick = { onLikeClick() },
+                onUnlikeClick = { onUnlikeClick() },
+                onShareClick = { onShareClick() }
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -152,7 +176,13 @@ fun IncludedStreams() {
 }
 
 @Composable
-fun OptionsButtons() {
+fun OptionsButtons(
+    onTrailerClick: () -> Unit,
+    onWatchlistClick: () -> Unit,
+    onLikeClick: () -> Unit,
+    onUnlikeClick: () -> Unit,
+    onShareClick: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -160,23 +190,23 @@ fun OptionsButtons() {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         OptionButton(ImageVector.vectorResource(R.drawable.ic_movie), "Trailer") {
-
+            onTrailerClick()
         }
 
         OptionButton(Icons.Outlined.Add, "Watchlist") {
-
+            onWatchlistClick()
         }
 
         OptionButton(Icons.Outlined.ThumbUp, "Like") {
-
+            onLikeClick()
         }
 
         OptionButton(ImageVector.vectorResource(R.drawable.ic_thumb_down), "Not for me") {
-
+            onUnlikeClick()
         }
 
         OptionButton(Icons.Outlined.Share, "Share") {
-
+            onShareClick()
         }
     }
 }
@@ -210,4 +240,8 @@ fun OverviewText(text: String) {
         overflow = TextOverflow.Ellipsis,
         maxLines = lines
     )
+}
+
+fun shareMovie() {
+
 }

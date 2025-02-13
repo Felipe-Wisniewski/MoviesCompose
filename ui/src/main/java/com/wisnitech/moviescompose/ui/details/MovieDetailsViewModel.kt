@@ -29,4 +29,16 @@ class MovieDetailsViewModel @Inject constructor(
                 started = SharingStarted.WhileSubscribed(5_000),
                 initialValue = MovieDetailsUiState.Loading
             )
+
+    fun saveOrRemoveToWatchlist() {
+
+    }
+
+    fun setLikeMovie() {
+
+    }
+
+    fun setUnlikeMovie() {
+
+    }
 }
