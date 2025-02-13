@@ -10,9 +10,11 @@ plugins {
 
 val properties = Properties()
 properties.load(project.rootProject.file("local.properties").inputStream())
+
 val baseUrl = properties["base-url"]
 val bearToken = properties["token"]
 val apiKey = properties["api-key"]
+val accountId = properties["account-id"]
 
 android {
     namespace = "com.wisnitech.data"
@@ -27,6 +29,7 @@ android {
         buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
         buildConfigField("String", "BEAR_TOKEN", "\"$bearToken\"")
         buildConfigField("String", "API_KEY", "\"$apiKey\"")
+        buildConfigField("String", "ACCOUNT_ID", "\"$accountId\"")
     }
 
     buildTypes {

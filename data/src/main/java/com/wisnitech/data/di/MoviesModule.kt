@@ -1,12 +1,17 @@
 package com.wisnitech.data.di
 
 import com.wisnitech.data.remote.retrofit.RetrofitClient
+import com.wisnitech.data.remote.source.AccountApi
+import com.wisnitech.data.remote.source.AccountNetworkDataSource
+import com.wisnitech.data.remote.source.AccountNetworkDataSourceImpl
 import com.wisnitech.data.remote.source.MoviesApi
 import com.wisnitech.data.remote.source.MoviesNetworkDataSource
 import com.wisnitech.data.remote.source.MoviesNetworkDataSourceImpl
 import com.wisnitech.data.remote.source.TrendingApi
 import com.wisnitech.data.remote.source.TrendingNetworkDataSource
 import com.wisnitech.data.remote.source.TrendingNetworkDataSourceImpl
+import com.wisnitech.data.repositories.account.AccountRepository
+import com.wisnitech.data.repositories.account.AccountRepositoryImpl
 import com.wisnitech.data.repositories.movies.MoviesRepository
 import com.wisnitech.data.repositories.movies.MoviesRepositoryImpl
 import com.wisnitech.data.repositories.trending.TrendingRepository
@@ -30,6 +35,11 @@ internal object ApiModule {
     internal fun provideTrendingApi(): TrendingApi {
         return RetrofitClient.generate<TrendingApi>()
     }
+
+    @Provides
+    internal fun provideAccountApi(): AccountApi {
+        return RetrofitClient.generate<AccountApi>()
+    }
 }
 
 @Module
@@ -45,6 +55,11 @@ internal abstract class NetworkDataSourceModule {
     internal abstract fun bindTrendingNetworkDataSource(
         networkDataSource: TrendingNetworkDataSourceImpl
     ): TrendingNetworkDataSource
+
+    @Binds
+    internal abstract fun bindAccountNetworkDataSource(
+        networkDataSource: AccountNetworkDataSourceImpl
+    ): AccountNetworkDataSource
 }
 
 @Module
@@ -60,5 +75,10 @@ abstract class RepositoryModule {
     abstract fun bindTrendingRepository(
         trendingRepository: TrendingRepositoryImpl
     ): TrendingRepository
+
+    @Binds
+    abstract fun bindAccountRepository(
+        accountRepository: AccountRepositoryImpl
+    ): AccountRepository
 }
 
