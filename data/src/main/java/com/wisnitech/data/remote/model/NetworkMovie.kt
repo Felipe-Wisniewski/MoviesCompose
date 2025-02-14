@@ -2,6 +2,7 @@ package com.wisnitech.data.remote.model
 
 import com.google.gson.annotations.SerializedName
 import com.wisnitech.data.model.Movie
+import com.wisnitech.data.remote.utils.IMAGE_URL
 
 data class NetworkMovie(
     val id: Int,
@@ -15,6 +16,6 @@ data class NetworkMovie(
 fun NetworkMovie.asExternalModel() = Movie(
     id = id,
     title = title,
-    posterPath = posterPath,
-    backdropPath = backdropPath
+    posterUrl = if (posterPath.isNullOrBlank()) null else IMAGE_URL + posterPath,
+    backdropUrl = if (backdropPath.isNullOrBlank()) null else IMAGE_URL + backdropPath
 )

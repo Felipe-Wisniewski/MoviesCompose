@@ -1,5 +1,6 @@
 package com.wisnitech.moviescompose.ui.home
 
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -61,6 +62,9 @@ fun NavGraphBuilder.moviesHomeNavGraph(
         showTopAppBar(false
         )
         val route = backStackEntry.toRoute<YouTubeScreenRoute>()
-        YouTubePlayerScreen(route.movieKey)
+
+        YouTubePlayerScreen(route.movieKey) {
+            navController.navigateUp()
+        }
     }
 }

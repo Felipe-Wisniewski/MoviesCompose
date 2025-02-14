@@ -61,7 +61,7 @@ fun ItemWatchlist(movie: Movie) {
         Column {
             AsyncImage(
                 modifier = Modifier.clickable { /*movieId(movie.id)*/ },
-                model = movie.getBackdropUrl(),
+                model = movie.backdropUrl,
                 contentDescription = "backdrop of movie ${movie.title}",
             )
         }

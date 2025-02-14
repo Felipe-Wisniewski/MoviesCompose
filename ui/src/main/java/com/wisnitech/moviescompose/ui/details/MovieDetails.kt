@@ -1,8 +1,11 @@
 package com.wisnitech.moviescompose.ui.details
 
+import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,7 +14,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Share
@@ -22,23 +28,30 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.wisnitech.data.model.MovieDetails
+import com.wisnitech.data.model.Person
 import com.wisnitech.moviescompose.ui.R
 import com.wisnitech.moviescompose.ui.common.LoadingView
 
@@ -57,13 +70,14 @@ fun MovieDetailsScreen(
 
         is MovieDetailsUiState.Success -> {
             val movie = (uiState as MovieDetailsUiState.Success).movieDetails
+
             DetailsScreen(
-                onTrailerClick = { onNavigateToPlayer("mxphAlJID9U") },
+                movie,
+                onTrailerClick = { onNavigateToPlayer(it) },
                 onWatchlistClick = viewModel::saveOrRemoveToWatchlist,
                 onLikeClick = viewModel::setLikeMovie,
                 onUnlikeClick = viewModel::setUnlikeMovie,
-                onShareClick = ::shareMovie,
-                movie
+                onShareClick = { }
             )
         }
     }
@@ -71,24 +85,37 @@ fun MovieDetailsScreen(
 
 @Composable
 fun DetailsScreen(
-    onTrailerClick: () -> Unit,
+    movieDetails: MovieDetails,
+    onTrailerClick: (movieKey: String) -> Unit,
     onWatchlistClick: () -> Unit,
     onLikeClick: () -> Unit,
     onUnlikeClick: () -> Unit,
-    onShareClick: () -> Unit,
-    movieDetails: MovieDetails
+    onShareClick: () -> Unit
 ) {
+    var widthSize by remember { mutableStateOf(0.dp) }
+    val density = LocalDensity.current
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        MovieImage(movieDetails.title ?: "", movieDetails.getBackdropUrl())
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .onGloballyPositioned { coordinates ->
+                widthSize = with(density) {
+                    coordinates.size.width.toDp()
+                }
+            }
+            .verticalScroll(rememberScrollState())
+    ) {
+        MovieImage(movieDetails.backdropUrl)
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(all = 16.dp)
         ) {
-            TaglineText(movieDetails.tagline ?: "")
-
+            movieDetails.tagline?.let {
+                if (it.isNotBlank()) TaglineText(it)
+            }
+            
             TitleText(movieDetails.title ?: "")
 
             IncludedStreams()
@@ -96,7 +123,8 @@ fun DetailsScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             OptionsButtons(
-                onTrailerClick = { onTrailerClick() },
+                movieDetails = movieDetails,
+                onTrailerClick = { onTrailerClick(it) },
                 onWatchlistClick = { onWatchlistClick() },
                 onLikeClick = { onLikeClick() },
                 onUnlikeClick = { onUnlikeClick() },
@@ -107,25 +135,69 @@ fun DetailsScreen(
 
             OverviewText(text = movieDetails.overview ?: "")
 
-            // genres
+            Spacer(modifier = Modifier.height(8.dp))
+
+            movieDetails.genres?.let { GenresList(it) }
+
+            Spacer(modifier = Modifier.height(12.dp))
 
             // IMDb 9.2
+            Text(text = "IMDb ${movieDetails.voteAverage}", color = Color.Gray)
+
+            Spacer(modifier = Modifier.height(8.dp))
 
             // 1972 169 min
+            Text(
+                text = "${movieDetails.releaseDate}  ${movieDetails.runtime}min",
+                color = Color.Gray
+            )
 
             // Languages
             // Audio (2), Subtitles (1)
+
+            // Related / More details
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Cast & Crew
+            Text(text = "Cast & Crew")
+
+            Spacer(modifier = Modifier.height(2.dp))
+
+            Text(text = "Details from TMDb", fontSize = 12.sp, color = Color.Gray)
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            if (movieDetails.cast?.isNotEmpty() == true) {
+                CastRows(widthSize, movieDetails.cast!!)
+            } else {
+                Text(text = "We don´t have any cast information.", fontSize = 12.sp)
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Spacer(
+                modifier = Modifier
+                    .background(Color.Gray)
+                    .fillMaxWidth()
+                    .height(0.5.dp)
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            movieDetails.director?.let {
+                DirectorField(widthSize, it)
+            }
         }
     }
-
 }
 
 @Composable
-fun MovieImage(title: String, imageUrl: String?) {
+fun MovieImage(imageUrl: String?) {
     AsyncImage(
         modifier = Modifier.fillMaxWidth(),
         model = imageUrl,
-        contentDescription = "poster do filme $title",
+        contentDescription = "backdrop image",
     )
 }
 
@@ -177,7 +249,8 @@ fun IncludedStreams() {
 
 @Composable
 fun OptionsButtons(
-    onTrailerClick: () -> Unit,
+    movieDetails: MovieDetails,
+    onTrailerClick: (videoKey: String) -> Unit,
     onWatchlistClick: () -> Unit,
     onLikeClick: () -> Unit,
     onUnlikeClick: () -> Unit,
@@ -189,8 +262,10 @@ fun OptionsButtons(
             .horizontalScroll(rememberScrollState()),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        OptionButton(ImageVector.vectorResource(R.drawable.ic_movie), "Trailer") {
-            onTrailerClick()
+        movieDetails.video?.videoKey?.let {
+            OptionButton(ImageVector.vectorResource(R.drawable.ic_movie), "Trailer") {
+                onTrailerClick(it)
+            }
         }
 
         OptionButton(Icons.Outlined.Add, "Watchlist") {
@@ -215,13 +290,13 @@ fun OptionsButtons(
 fun OptionButton(
     icon: ImageVector,
     description: String,
-    onClickOption: (option: String) -> Unit
+    onClickOption: () -> Unit
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        IconButton(onClick = { onClickOption.invoke(description) }) {
+        IconButton(onClick = { onClickOption() }) {
             Icon(imageVector = icon, contentDescription = description)
         }
 
@@ -231,7 +306,6 @@ fun OptionButton(
 
 @Composable
 fun OverviewText(text: String) {
-
     var lines by remember { mutableIntStateOf(3) }
 
     Text(
@@ -242,6 +316,108 @@ fun OverviewText(text: String) {
     )
 }
 
-fun shareMovie() {
+@Composable
+fun GenresList(genres: List<String>) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Start,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        genres.forEachIndexed { index, genre ->
+            Text(text = genre)
 
+            Spacer(modifier = Modifier.size(8.dp))
+
+            if (index != genres.lastIndex) {
+                Box(
+                    modifier = Modifier
+                        .background(Color.White)
+                        .size(4.dp)
+                        .padding(4.dp)
+                        .clip(RoundedCornerShape(2.dp))
+                )
+
+                Spacer(modifier = Modifier.size(8.dp))
+            }
+        }
+    }
+}
+
+@Composable
+fun CastRows(widthSize: Dp, cast: List<Person>) {
+    val firstRowCast = mutableListOf<Person>()
+    val secondRowCast = mutableListOf<Person>()
+
+    cast.forEachIndexed { index, person ->
+        when (index) {
+            0, 1, 2 -> firstRowCast.add(person)
+            3, 4, 5 -> secondRowCast.add(person)
+        }
+    }
+
+    CastRow(widthSize, firstRowCast)
+
+    Spacer(modifier = Modifier.height(16.dp))
+
+    CastRow(widthSize, secondRowCast)
+
+
+}
+
+@Composable
+fun CastRow(widthSize: Dp, cast: List<Person>) {
+    val imageWidth = (widthSize - 48.dp) / 3
+
+    if (cast.isNotEmpty()) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            cast.forEach {
+                ItemPersonImageName(imageWidth, it.profileUrl, it.name)
+            }
+        }
+    }
+}
+
+@Composable
+fun DirectorField(widthSize: Dp, director: Person) {
+    val imageWidth = (widthSize - 48.dp) / 3
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(180.dp)
+    ) {
+        ItemPersonImageName(imageWidth, director.profileUrl, director.name)
+
+        Spacer(modifier = Modifier.width(8.dp))
+
+        Column {
+            Text(text = "Director")
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Text(text = "Known for: Bla bla bla", color = Color.Gray)
+        }
+    }
+}
+
+@Composable
+fun ItemPersonImageName(imageWidth: Dp, imageUrl: String?, name: String) {
+    Box(modifier = Modifier.width(imageWidth)) {
+        AsyncImage(
+            modifier = Modifier
+                .clip(RoundedCornerShape(8.dp))
+                .clickable { },
+            model = imageUrl,
+            contentDescription = "person image",
+        )
+
+        Text(
+            text = name,
+            modifier = Modifier.align(Alignment.BottomCenter),
+            fontSize = 11.sp
+        )
+    }
 }

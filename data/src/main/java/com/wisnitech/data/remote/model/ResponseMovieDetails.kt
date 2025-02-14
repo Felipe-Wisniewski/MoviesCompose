@@ -15,18 +15,25 @@ data class ResponseMovieDetails(
     val backdropPath: String?,
     @SerializedName("release_date")
     val releaseDate: String?,
+    val runtime:Int?,
     @SerializedName("original_language")
     val originalLanguage: String?,
     val homepage: String?,
-    val budget: Int,
+    val budget: Int?,
     val revenue: Int?,
     val popularity: Float?,
     @SerializedName("vote_average")
     val voteAverage: Float?,
     @SerializedName("vote_count")
     val voteCount: Int?,
-    val genres: List<NetworkGenres>?
+    val genres: List<NetworkGenres>?,
+    val videos: NetworkMovieVideos?,
+    val credits: NetworkCredits?
 )
+
+private const val IMAGE_URL = "https://image.tmdb.org/t/p/w1280"
+private const val FIND_VIDEO_TYPE = "Trailer"
+private const val FIND_CREW_JOB = "Director"
 
 fun ResponseMovieDetails.asExternalModel() = MovieDetails(
     id = id,
@@ -34,22 +41,19 @@ fun ResponseMovieDetails.asExternalModel() = MovieDetails(
     overview = overview,
     tagline = tagline,
     status = status,
-    posterPath = posterPath,
-    backdropPath = backdropPath,
+    posterUrl = if (posterPath.isNullOrBlank()) null else IMAGE_URL + posterPath,
+    backdropUrl = if (backdropPath.isNullOrBlank()) null else IMAGE_URL + backdropPath,
     releaseDate = releaseDate,
+    runtime = runtime,
     originalLanguage = originalLanguage,
     homepage = homepage,
     budget = budget,
     revenue = revenue,
     popularity = popularity,
-    voteAverage = voteAverage,
+    voteAverage = voteAverage?.let { Math.round(it * 10.0) / 10.0 } ?: 0.0,
     voteCount = voteCount,
-    genres = genres?.map { it.name }
+    genres = genres?.map { it.name },
+    video = videos?.results?.find { it.type == FIND_VIDEO_TYPE && it.official }?.asExternalModel(),
+    cast = credits?.cast?.sortedBy { it.order }?.take(6)?.map { it.asExternalModel() },
+    director = credits?.crew?.find { it.job == FIND_CREW_JOB }?.asExternalModel()
 )
-
-// other calls
-//
-// recommendation list (movieId)
-//
-// credits.cast > acting
-// credits.crew > "department": "Directing", "job": "Director"

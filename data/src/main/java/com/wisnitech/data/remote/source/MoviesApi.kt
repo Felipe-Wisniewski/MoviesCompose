@@ -19,5 +19,8 @@ interface MoviesApi {
     suspend fun loadUpcomingMovies(@Query("page") page: Int): Response<ResponseMovies>
 
     @GET("movie/{movieId}")
-    suspend fun loadMovieDetails(@Path("movieId") movieId: Int): Response<ResponseMovieDetails>
+    suspend fun loadMovieDetails(
+        @Path("movieId") movieId: Int,
+        @Query("append_to_response") append: String = "videos,credits"
+    ): Response<ResponseMovieDetails>
 }
