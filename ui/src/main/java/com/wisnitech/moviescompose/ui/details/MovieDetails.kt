@@ -1,6 +1,5 @@
 package com.wisnitech.moviescompose.ui.details
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -115,7 +114,7 @@ fun DetailsScreen(
             movieDetails.tagline?.let {
                 if (it.isNotBlank()) TaglineText(it)
             }
-            
+
             TitleText(movieDetails.title ?: "")
 
             IncludedStreams()
@@ -360,8 +359,6 @@ fun CastRows(widthSize: Dp, cast: List<Person>) {
     Spacer(modifier = Modifier.height(16.dp))
 
     CastRow(widthSize, secondRowCast)
-
-
 }
 
 @Composable

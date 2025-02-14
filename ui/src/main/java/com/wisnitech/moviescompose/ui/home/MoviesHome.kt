@@ -72,13 +72,11 @@ fun MoviesHome(
             onNavigateToDetails(movieId)
         }
     }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TrendingCarrousel(trendingUiState: TrendingUiState) {
-
     var size by remember { mutableStateOf(0.dp) }
     val density = LocalDensity.current
 
@@ -100,12 +98,12 @@ fun TrendingCarrousel(trendingUiState: TrendingUiState) {
                 itemWidth = size
             ) { i ->
                 val item = trendingMovies[i]
-                val itemName = item.getName()
+                val itemName = item.title
 
                 Box(modifier = Modifier.background(Color.Green)) {
                     AsyncImage(
                         modifier = Modifier.fillMaxSize(),
-                        model = item.getBackdropUrl(),
+                        model = item.backdropUrl,
                         contentDescription = itemName,
                     )
                     Text(itemName)
@@ -121,7 +119,6 @@ fun HorizontalListMovies(
     movies: LazyPagingItems<Movie>,
     movieId: (id: Int) -> Unit
 ) {
-
     Text(
         modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
         text = header

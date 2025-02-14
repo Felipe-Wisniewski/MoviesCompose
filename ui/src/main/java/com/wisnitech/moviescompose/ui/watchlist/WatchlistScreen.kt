@@ -22,7 +22,6 @@ import com.wisnitech.moviescompose.ui.common.LoadingView
 
 @Composable
 fun WatchlistScreen(viewModel: WatchlistViewModel = hiltViewModel()) {
-
     val uiState by viewModel.watchlistUiState.collectAsStateWithLifecycle()
 
     when (uiState) {
@@ -35,7 +34,6 @@ fun WatchlistScreen(viewModel: WatchlistViewModel = hiltViewModel()) {
 
 @Composable
 fun WatchlistScreen(movies: List<Movie>) {
-
     Text(text = "${movies.size} movies")
 
     LazyRow(
@@ -47,17 +45,14 @@ fun WatchlistScreen(movies: List<Movie>) {
             ItemWatchlist(movie)
         }
     }
-
 }
 
 @Composable
 fun ItemWatchlist(movie: Movie) {
-
     Row(
         modifier = Modifier.height(80.dp),
         horizontalArrangement = Arrangement.SpaceAround
     ) {
-
         Column {
             AsyncImage(
                 modifier = Modifier.clickable { /*movieId(movie.id)*/ },
@@ -70,7 +65,5 @@ fun ItemWatchlist(movie: Movie) {
             Text(text = movie.title)
             Text(text = "2025")
         }
-
     }
-
 }

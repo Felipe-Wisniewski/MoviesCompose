@@ -2,6 +2,9 @@ package com.wisnitech.data.remote.model
 
 import com.google.gson.annotations.SerializedName
 import com.wisnitech.data.model.MovieDetails
+import com.wisnitech.data.remote.utils.FIND_CREW_JOB
+import com.wisnitech.data.remote.utils.FIND_VIDEO_TYPE
+import com.wisnitech.data.remote.utils.IMAGE_URL
 
 data class ResponseMovieDetails(
     val id: Int,
@@ -30,10 +33,6 @@ data class ResponseMovieDetails(
     val videos: NetworkMovieVideos?,
     val credits: NetworkCredits?
 )
-
-private const val IMAGE_URL = "https://image.tmdb.org/t/p/w1280"
-private const val FIND_VIDEO_TYPE = "Trailer"
-private const val FIND_CREW_JOB = "Director"
 
 fun ResponseMovieDetails.asExternalModel() = MovieDetails(
     id = id,
