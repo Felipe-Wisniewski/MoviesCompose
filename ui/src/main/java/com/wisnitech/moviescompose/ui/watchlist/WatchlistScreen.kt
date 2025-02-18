@@ -18,7 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.wisnitech.data.model.Movie
-import com.wisnitech.moviescompose.ui.common.LoadingView
+import com.wisnitech.moviescompose.ui.components.LoadingView
 
 @Composable
 fun WatchlistScreen(viewModel: WatchlistViewModel = hiltViewModel()) {

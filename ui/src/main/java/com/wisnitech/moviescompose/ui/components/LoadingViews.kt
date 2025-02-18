@@ -1,4 +1,4 @@
-package com.wisnitech.moviescompose.ui.common
+package com.wisnitech.moviescompose.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
