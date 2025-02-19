@@ -31,10 +31,13 @@ fun MoviesHome(
     ) {
         when (trendingUiState) {
             is TrendingUiState.Loading -> LoadingView()
+
             is TrendingUiState.Success -> {
                 val trending = (trendingUiState as TrendingUiState.Success).trending
                 HorizontalPagerTrending(trending)
             }
+
+            else -> Unit
         }
 
         LazyRowMovies("Top Rated Movies", topRatedMovies) { movieId ->

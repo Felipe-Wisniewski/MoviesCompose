@@ -17,15 +17,15 @@ class MoviesRepositoryImpl @Inject constructor(
     private val networkDataSource: MoviesNetworkDataSource
 ) : MoviesRepository {
 
-    override suspend fun getTopRatedMovies(): Flow<PagingData<Movie>> {
+    override fun getTopRatedMovies(): Flow<PagingData<Movie>> {
         return setPager(MoviesCall.TOP_RATED)
     }
 
-    override suspend fun getPopularMovies(): Flow<PagingData<Movie>> {
+    override fun getPopularMovies(): Flow<PagingData<Movie>> {
         return setPager(MoviesCall.POPULAR)
     }
 
-    override suspend fun getUpcomingMovies(): Flow<PagingData<Movie>> {
+    override fun getUpcomingMovies(): Flow<PagingData<Movie>> {
         return setPager(MoviesCall.UPCOMING)
     }
 
@@ -33,9 +33,8 @@ class MoviesRepositoryImpl @Inject constructor(
         return Pager(
             config = PagingConfig(
                 pageSize = 30,
-                initialLoadSize = 90,
-                prefetchDistance = 10,
-                enablePlaceholders = false
+                initialLoadSize = 30,
+                prefetchDistance = 10
             ),
             pagingSourceFactory = {
                 MoviesPagingSource(call, networkDataSource)

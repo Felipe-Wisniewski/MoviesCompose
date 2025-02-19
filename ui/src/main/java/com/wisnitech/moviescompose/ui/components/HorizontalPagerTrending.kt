@@ -20,9 +20,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import com.wisnitech.data.model.Trending
+import com.wisnitech.moviescompose.ui.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 
@@ -42,14 +49,21 @@ fun HorizontalPagerTrending(trending: List<Trending>) {
 
             Box {
                 AsyncImage(
-                    modifier = Modifier.fillMaxWidth(),
-                    model = item.backdropUrl,
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(item.backdropUrl)
+                        .crossfade(true)
+                        .build(),
+                    placeholder = painterResource(R.drawable.placeholder_backdrop),
                     contentDescription = itemName,
+                    modifier = Modifier.fillMaxWidth(),
                 )
                 Text(
-                    text = itemName, modifier = Modifier
+                    text = itemName,
+                    modifier = Modifier
                         .padding(8.dp)
-                        .align(Alignment.BottomStart)
+                        .align(Alignment.BottomStart),
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold
                 )
             }
         }

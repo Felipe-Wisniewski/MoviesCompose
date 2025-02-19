@@ -1,4 +1,4 @@
-package com.wisnitech.moviescompose.ui
+package com.wisnitech.moviescompose.ui.app
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite

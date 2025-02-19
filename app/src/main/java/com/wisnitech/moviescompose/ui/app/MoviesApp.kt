@@ -1,4 +1,4 @@
-package com.wisnitech.moviescompose.ui
+package com.wisnitech.moviescompose.ui.app
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -39,8 +39,8 @@ fun MoviesApp() {
     ) { innerPadding ->
 
         MainNavHost(
-            navController = navController,
             modifier = Modifier.padding(innerPadding),
+            navController = navController,
             showTopAppBar = { showTopAppBar = it }
         )
     }
