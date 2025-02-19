@@ -8,6 +8,7 @@ import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
@@ -39,20 +40,15 @@ fun MoviesBottomAppBar(navController: NavHostController) {
 
     if (hasBottomBarItem.contains(true)) {
 
-        NavigationBar {
+        NavigationBar(
+            containerColor = MaterialTheme.colorScheme.primary
+        ) {
             bottomBarItems.forEach { bottomRoute ->
 
                 selectedItem =
                     currentDestination?.hierarchy?.any { it.hasRoute(bottomRoute.route::class) } == true
 
                 NavigationBarItem(
-                    icon = {
-                        Icon(
-                            if (selectedItem) bottomRoute.iconSelected else bottomRoute.iconUnselected,
-                            contentDescription = bottomRoute.label
-                        )
-                    },
-                    label = { Text(bottomRoute.label) },
                     selected = selectedItem,
                     onClick = {
                         navController.navigate(bottomRoute.route) {
@@ -64,7 +60,14 @@ fun MoviesBottomAppBar(navController: NavHostController) {
                             launchSingleTop = true
                             restoreState = true
                         }
-                    }
+                    },
+                    icon = {
+                        Icon(
+                            if (selectedItem) bottomRoute.iconSelected else bottomRoute.iconUnselected,
+                            contentDescription = bottomRoute.label
+                        )
+                    },
+                    label = { Text(bottomRoute.label) }
                 )
 
             }
