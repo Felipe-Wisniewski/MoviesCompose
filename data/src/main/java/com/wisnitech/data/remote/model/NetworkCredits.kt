@@ -30,14 +30,14 @@ data class NetworkCrew(
     val job: String?
 )
 
-fun NetworkCast.asExternalModel() = Person(
+fun NetworkCast.asExternalResumeModel() = Person(
     id = id,
     knownForDepartment = knownForDepartment ?: "-",
     name = name ?: "-",
     profileUrl = if (profilePath.isNullOrBlank()) null else com.wisnitech.data.remote.utils.IMAGE_URL + profilePath
 )
 
-fun NetworkCrew.asExternalModel() = Person(
+fun NetworkCrew.asExternalResumeModel() = Person(
     id = id,
     knownForDepartment = knownForDepartment ?: "-",
     name = name ?: "-",

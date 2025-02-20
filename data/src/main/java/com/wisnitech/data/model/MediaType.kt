@@ -7,5 +7,8 @@ enum class MediaType(value: String) {
     TV("Tv"),
 
     @SerializedName("movie")
-    MOVIE("Movie")
+    MOVIE("Movie"),
+
+    @SerializedName("person")
+    PERSON("Person")
 }

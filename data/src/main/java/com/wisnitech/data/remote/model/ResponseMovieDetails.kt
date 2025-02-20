@@ -30,7 +30,7 @@ data class ResponseMovieDetails(
     @SerializedName("vote_count")
     val voteCount: Int?,
     val genres: List<NetworkGenres>?,
-    val videos: NetworkMovieVideos?,
+    val videos: ResponseVideos?,
     val credits: NetworkCredits?
 )
 
@@ -52,7 +52,7 @@ fun ResponseMovieDetails.asExternalModel() = MovieDetails(
     voteAverage = voteAverage?.let { Math.round(it * 10.0) / 10.0 } ?: 0.0,
     voteCount = voteCount,
     genres = genres?.map { it.name },
-    video = videos?.results?.find { it.type == FIND_VIDEO_TYPE && it.official }?.asExternalModel(),
-    cast = credits?.cast?.sortedBy { it.order }?.take(6)?.map { it.asExternalModel() },
-    director = credits?.crew?.find { it.job == FIND_CREW_JOB }?.asExternalModel()
+    trailer = videos?.results?.find { it.type == FIND_VIDEO_TYPE && it.official }?.asExternalResumeModel(),
+    cast = credits?.cast?.sortedBy { it.order }?.take(6)?.map { it.asExternalResumeModel() },
+    director = credits?.crew?.find { it.job == FIND_CREW_JOB }?.asExternalResumeModel()
 )

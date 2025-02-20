@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.wisnitech.data.repositories.movies.MoviesRepository
+import com.wisnitech.data.repositories.movie.MovieRepository
 import com.wisnitech.moviescompose.ui.home.MovieDetailsRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -17,13 +17,13 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    moviesRepository: MoviesRepository
+    moviesRepository: MovieRepository
 ) : ViewModel() {
 
     private val route = savedStateHandle.toRoute<MovieDetailsRoute>()
 
     val detailsUiState: StateFlow<MovieDetailsUiState> =
-        moviesRepository.getMovieDetails(route.movieId)
+        moviesRepository.loadMovieDetails(route.movieId)
             .catch { it.printStackTrace() }
             .map(MovieDetailsUiState::Success)
             .stateIn(

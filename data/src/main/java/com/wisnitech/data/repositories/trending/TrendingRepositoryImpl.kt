@@ -3,7 +3,7 @@ package com.wisnitech.data.repositories.trending
 import com.wisnitech.data.model.Trending
 import com.wisnitech.data.remote.model.NetworkTrending
 import com.wisnitech.data.remote.model.asExternalModel
-import com.wisnitech.data.remote.source.TrendingNetworkDataSource
+import com.wisnitech.data.remote.source.trending.TrendingNetworkDataSource
 import com.wisnitech.data.remote.utils.ApiResult
 import com.wisnitech.data.remote.utils.handleApiCall
 import kotlinx.coroutines.flow.Flow

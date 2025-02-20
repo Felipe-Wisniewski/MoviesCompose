@@ -1,6 +1,7 @@
 package com.wisnitech.data.remote.model
 
 import com.google.gson.annotations.SerializedName
+import com.wisnitech.data.model.MediaType
 import com.wisnitech.data.model.Trending
 import com.wisnitech.data.remote.utils.IMAGE_URL
 
@@ -11,7 +12,7 @@ data class NetworkTrending(
     @SerializedName("title")
     val movieTitle: String?,
     @SerializedName("media_type")
-    val mediaType: NetworkMediaType,
+    val mediaType: MediaType,
     @SerializedName("backdrop_path")
     val backdropPath: String?
 )
@@ -19,9 +20,10 @@ data class NetworkTrending(
 fun NetworkTrending.asExternalModel() = Trending(
     id = id,
     title = when (mediaType) {
-        NetworkMediaType.TV -> tvShowName ?: "-"
-        NetworkMediaType.MOVIE -> movieTitle ?: "-"
+        MediaType.TV -> tvShowName ?: "-"
+        MediaType.MOVIE -> movieTitle ?: "-"
+        else -> "-"
     },
-    mediaType = mediaType.name,
+    mediaType = mediaType,
     backdropUrl = if (backdropPath.isNullOrBlank()) null else IMAGE_URL + backdropPath
 )

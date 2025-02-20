@@ -261,7 +261,7 @@ fun OptionsButtons(
             .horizontalScroll(rememberScrollState()),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        movieDetails.video?.videoKey?.let {
+        movieDetails.trailer?.trailerKey?.let {
             OptionButton(ImageVector.vectorResource(R.drawable.ic_movie), "Trailer") {
                 onTrailerClick(it)
             }

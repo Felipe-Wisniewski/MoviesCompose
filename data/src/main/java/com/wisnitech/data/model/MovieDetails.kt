@@ -18,7 +18,7 @@ data class MovieDetails(
     val voteAverage: Double,
     val voteCount: Int?,
     val genres: List<String>?,
-    val video: VideoDetails?,
+    val trailer: Trailer?,
     val cast: List<Person>?,
     val director: Person?
 )

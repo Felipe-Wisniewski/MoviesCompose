@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.wisnitech.data.model.Movie
-import com.wisnitech.data.repositories.movies.MoviesRepository
+import com.wisnitech.data.repositories.movie.MovieRepository
 import com.wisnitech.data.repositories.trending.TrendingRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MoviesHomeViewModel @Inject constructor(
     trendingRepository: TrendingRepository,
-    moviesRepository: MoviesRepository
+    moviesRepository: MovieRepository
 ) : ViewModel() {
 
     val trendingUiState: StateFlow<TrendingUiState> = trendingRepository.loadAllTrending()
@@ -34,7 +34,7 @@ class MoviesHomeViewModel @Inject constructor(
             initialValue = TrendingUiState.Loading
         )
 
-    val topRatedMovies: StateFlow<PagingData<Movie>> = moviesRepository.getTopRatedMovies()
+    val topRatedMovies: StateFlow<PagingData<Movie>> = moviesRepository.loadTopRatedMovies()
         .distinctUntilChanged()
         .cachedIn(viewModelScope)
         .stateIn(
@@ -43,7 +43,7 @@ class MoviesHomeViewModel @Inject constructor(
             initialValue = PagingData.empty()
         )
 
-    val popularMovies: StateFlow<PagingData<Movie>> = moviesRepository.getPopularMovies()
+    val popularMovies: StateFlow<PagingData<Movie>> = moviesRepository.loadPopularMovies()
         .distinctUntilChanged()
         .cachedIn(viewModelScope)
         .stateIn(
@@ -52,7 +52,7 @@ class MoviesHomeViewModel @Inject constructor(
             initialValue = PagingData.empty()
         )
 
-    val upcomingMovies: StateFlow<PagingData<Movie>> = moviesRepository.getUpcomingMovies()
+    val upcomingMovies: StateFlow<PagingData<Movie>> = moviesRepository.loadUpcomingMovies()
         .distinctUntilChanged()
         .cachedIn(viewModelScope)
         .stateIn(

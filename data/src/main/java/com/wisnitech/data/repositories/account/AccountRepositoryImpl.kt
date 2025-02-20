@@ -1,11 +1,11 @@
 package com.wisnitech.data.repositories.account
 
 import com.wisnitech.data.BuildConfig
-import com.wisnitech.data.model.Movie
-import com.wisnitech.data.remote.model.NetworkMovie
+import com.wisnitech.data.model.MediaType
+import com.wisnitech.data.model.MovieResume
 import com.wisnitech.data.remote.model.RequestWatchlist
-import com.wisnitech.data.remote.model.asExternalModel
-import com.wisnitech.data.remote.source.AccountNetworkDataSource
+import com.wisnitech.data.remote.model.asExternalResumeModel
+import com.wisnitech.data.remote.source.account.AccountNetworkDataSource
 import com.wisnitech.data.remote.utils.ApiResult
 import com.wisnitech.data.remote.utils.handleApiCall
 import kotlinx.coroutines.flow.Flow
@@ -40,14 +40,17 @@ class AccountRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun loadMoviesFromWatchlist(): Flow<List<Movie>> {
+    override fun loadMoviesFromWatchlist(): Flow<List<MovieResume>> {
         return flow {
             try {
                 val result =
                     handleApiCall { accountNetworkDataSource.getMoviesFromWatchlist(accountId.toInt()) }
 
                 when (result) {
-                    is ApiResult.Success -> emit(result.data.results.map(NetworkMovie::asExternalModel))
+                    is ApiResult.Success -> {
+                        emit(result.data.results.map { it.asExternalResumeModel(MediaType.MOVIE) })
+                    }
+
                     is ApiResult.Error -> throw Exception("code:${result.code},message:${result.errorMsg}")
                     else -> throw Exception("An error occurred in the fun loadAllTrending")
                 }

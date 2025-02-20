@@ -1,13 +1,13 @@
 package com.wisnitech.data.remote.model
 
 import com.google.gson.annotations.SerializedName
-import com.wisnitech.data.model.VideoDetails
+import com.wisnitech.data.model.Trailer
 
-data class NetworkMovieVideos(
-    val results: List<NetworkVideoDetails>?
+data class ResponseVideos(
+    val results: List<NetworkVideo>?
 )
 
-data class NetworkVideoDetails(
+data class NetworkVideo(
     val id: String,
     @SerializedName("key")
     val videoKey: String,
@@ -15,9 +15,9 @@ data class NetworkVideoDetails(
     val official: Boolean
 )
 
-fun NetworkVideoDetails.asExternalModel() = VideoDetails(
+fun NetworkVideo.asExternalResumeModel() = Trailer(
     id = id,
-    videoKey = videoKey,
+    trailerKey = videoKey,
     type = type,
     official = official
 )

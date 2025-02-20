@@ -1,8 +1,8 @@
 package com.wisnitech.data.model
 
-data class VideoDetails(
+data class Trailer(
     val id: String,
-    val videoKey: String,
+    val trailerKey: String,
     val type: String,
     val official: Boolean
 )

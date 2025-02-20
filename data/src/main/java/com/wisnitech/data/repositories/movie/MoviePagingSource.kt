@@ -1,18 +1,18 @@
-package com.wisnitech.data.repositories.movies
+package com.wisnitech.data.repositories.movie
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.wisnitech.data.model.Movie
 import com.wisnitech.data.remote.model.NetworkMovie
 import com.wisnitech.data.remote.model.asExternalModel
-import com.wisnitech.data.remote.source.MoviesNetworkDataSource
+import com.wisnitech.data.remote.source.movie.MovieNetworkDataSource
 import com.wisnitech.data.remote.utils.ApiResult
 import com.wisnitech.data.remote.utils.handleApiCall
 import java.io.IOException
 
-internal class MoviesPagingSource(
+internal class MoviePagingSource(
     private val call: MoviesCall,
-    private val moviesDataSource: MoviesNetworkDataSource
+    private val movieDataSource: MovieNetworkDataSource
 ) : PagingSource<Int, Movie>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
@@ -21,9 +21,9 @@ internal class MoviesPagingSource(
 
             val response = handleApiCall {
                 when (call) {
-                    MoviesCall.TOP_RATED -> moviesDataSource.loadTopRatedMovies(page)
-                    MoviesCall.POPULAR -> moviesDataSource.loadPopularMovies(page)
-                    MoviesCall.UPCOMING -> moviesDataSource.loadUpcomingMovies(page)
+                    MoviesCall.TOP_RATED -> movieDataSource.getTopRatedMovies(page)
+                    MoviesCall.POPULAR -> movieDataSource.getPopularMovies(page)
+                    MoviesCall.UPCOMING -> movieDataSource.getUpcomingMovies(page)
                 }
             }
 
@@ -47,7 +47,6 @@ internal class MoviesPagingSource(
     override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
         return state.anchorPosition
     }
-
 }
 
 internal enum class MoviesCall {

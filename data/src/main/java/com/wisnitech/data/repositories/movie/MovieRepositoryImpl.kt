@@ -1,4 +1,4 @@
-package com.wisnitech.data.repositories.movies
+package com.wisnitech.data.repositories.movie
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -6,26 +6,26 @@ import androidx.paging.PagingData
 import com.wisnitech.data.model.Movie
 import com.wisnitech.data.model.MovieDetails
 import com.wisnitech.data.remote.model.asExternalModel
-import com.wisnitech.data.remote.source.MoviesNetworkDataSource
+import com.wisnitech.data.remote.source.movie.MovieNetworkDataSource
 import com.wisnitech.data.remote.utils.ApiResult
 import com.wisnitech.data.remote.utils.handleApiCall
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class MoviesRepositoryImpl @Inject constructor(
-    private val networkDataSource: MoviesNetworkDataSource
-) : MoviesRepository {
+class MovieRepositoryImpl @Inject constructor(
+    private val networkDataSource: MovieNetworkDataSource
+) : MovieRepository {
 
-    override fun getTopRatedMovies(): Flow<PagingData<Movie>> {
+    override fun loadTopRatedMovies(): Flow<PagingData<Movie>> {
         return setPager(MoviesCall.TOP_RATED)
     }
 
-    override fun getPopularMovies(): Flow<PagingData<Movie>> {
+    override fun loadPopularMovies(): Flow<PagingData<Movie>> {
         return setPager(MoviesCall.POPULAR)
     }
 
-    override fun getUpcomingMovies(): Flow<PagingData<Movie>> {
+    override fun loadUpcomingMovies(): Flow<PagingData<Movie>> {
         return setPager(MoviesCall.UPCOMING)
     }
 
@@ -37,15 +37,15 @@ class MoviesRepositoryImpl @Inject constructor(
                 prefetchDistance = 10
             ),
             pagingSourceFactory = {
-                MoviesPagingSource(call, networkDataSource)
+                MoviePagingSource(call, networkDataSource)
             }
         ).flow
     }
 
-    override fun getMovieDetails(movieId: Int): Flow<MovieDetails> {
+    override fun loadMovieDetails(movieId: Int): Flow<MovieDetails> {
         return flow {
             try {
-                val result = handleApiCall { networkDataSource.loadMovieDetails(movieId) }
+                val result = handleApiCall { networkDataSource.getMovieDetails(movieId) }
 
                 when (result) {
                     is ApiResult.Success -> emit(result.data.asExternalModel())

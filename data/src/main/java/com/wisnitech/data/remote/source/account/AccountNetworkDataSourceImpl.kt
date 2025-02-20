@@ -1,4 +1,4 @@
-package com.wisnitech.data.remote.source
+package com.wisnitech.data.remote.source.account
 
 import com.wisnitech.data.remote.model.RequestWatchlist
 import retrofit2.Response
