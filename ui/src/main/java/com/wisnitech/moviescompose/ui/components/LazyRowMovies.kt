@@ -48,7 +48,7 @@ fun LazyRowMovies(
         items(
             count = movies.itemCount,
             key = movies.itemKey { "${it.id}-${UUID.randomUUID()}" },  // TODO("remove random")
-            contentType = movies.itemContentType { "Movie" }
+            contentType = movies.itemContentType { it }
         ) { index ->
             val item = movies[index]
             item?.let {

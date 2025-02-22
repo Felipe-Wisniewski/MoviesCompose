@@ -53,11 +53,8 @@ fun SearchScreen(viewModel: SearchViewModel = hiltViewModel()) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        when(searchItems.loadState.append) {
-            is LoadState.Loading -> {}
-            is LoadState.Error -> {}
-            else -> ListVideosWithResume(searchItems)
-        }
+        ListVideosWithResume(searchItems)
+
     }
 }
 
