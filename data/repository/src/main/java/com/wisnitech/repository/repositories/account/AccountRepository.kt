@@ -1,6 +1,6 @@
-package com.wisnitech.data.repositories.account
+package com.wisnitech.repository.repositories.account
 
-import com.wisnitech.data.model.MovieResume
+import com.wisnitech.repository.model.MovieResume
 import com.wisnitech.data.remote.model.RequestWatchlist
 import kotlinx.coroutines.flow.Flow
 

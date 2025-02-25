@@ -2,7 +2,7 @@ package com.wisnitech.moviescompose.ui.watchlist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.wisnitech.data.repositories.account.AccountRepository
+import com.wisnitech.repository.repositories.account.AccountRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

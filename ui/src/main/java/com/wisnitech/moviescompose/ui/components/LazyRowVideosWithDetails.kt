@@ -30,7 +30,7 @@ import androidx.paging.compose.itemKey
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import com.wisnitech.data.model.MovieResume
+import com.wisnitech.repository.model.MovieResume
 import com.wisnitech.moviescompose.ui.R
 import kotlinx.coroutines.flow.MutableStateFlow
 

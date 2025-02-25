@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import com.wisnitech.data.model.Trending
+import com.wisnitech.repository.model.Trending
 import com.wisnitech.moviescompose.ui.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive

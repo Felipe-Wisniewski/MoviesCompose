@@ -13,14 +13,6 @@ import com.wisnitech.data.remote.source.search.SearchNetworkDataSourceImpl
 import com.wisnitech.data.remote.source.trending.TrendingApi
 import com.wisnitech.data.remote.source.trending.TrendingNetworkDataSource
 import com.wisnitech.data.remote.source.trending.TrendingNetworkDataSourceImpl
-import com.wisnitech.data.repositories.account.AccountRepository
-import com.wisnitech.data.repositories.account.AccountRepositoryImpl
-import com.wisnitech.data.repositories.movie.MovieRepository
-import com.wisnitech.data.repositories.movie.MovieRepositoryImpl
-import com.wisnitech.data.repositories.search.SearchRepository
-import com.wisnitech.data.repositories.search.SearchRepositoryImpl
-import com.wisnitech.data.repositories.trending.TrendingRepository
-import com.wisnitech.data.repositories.trending.TrendingRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -73,28 +65,4 @@ internal abstract class NetworkDataSourceModule {
     internal abstract fun bindSearchNetworkDataSource(
         networkDataSource: SearchNetworkDataSourceImpl
     ): SearchNetworkDataSource
-}
-
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class RepositoryModule {
-    @Binds
-    abstract fun bindMovieRepository(
-        moviesRepository: MovieRepositoryImpl
-    ): MovieRepository
-
-    @Binds
-    abstract fun bindTrendingRepository(
-        trendingRepository: TrendingRepositoryImpl
-    ): TrendingRepository
-
-    @Binds
-    abstract fun bindAccountRepository(
-        accountRepository: AccountRepositoryImpl
-    ): AccountRepository
-
-    @Binds
-    abstract fun bindSearchRepository(
-        searchRepository: SearchRepositoryImpl
-    ): SearchRepository
 }

@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.wisnitech.data.model.MovieResume
-import com.wisnitech.data.repositories.search.SearchRepository
+import com.wisnitech.repository.model.MovieResume
+import com.wisnitech.repository.repositories.search.SearchRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted

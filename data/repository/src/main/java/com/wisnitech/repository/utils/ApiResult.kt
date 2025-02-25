@@ -1,4 +1,4 @@
-package com.wisnitech.data.remote.utils
+package com.wisnitech.repository.utils
 
 sealed interface ApiResult<T : Any> {
     data class Success<T : Any>(val data: T) : ApiResult<T>

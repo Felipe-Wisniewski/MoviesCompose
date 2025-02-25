@@ -1,8 +1,8 @@
-package com.wisnitech.data.repositories.movie
+package com.wisnitech.repository.repositories.movie
 
 import androidx.paging.PagingData
-import com.wisnitech.data.model.Movie
-import com.wisnitech.data.model.MovieDetails
+import com.wisnitech.repository.model.Movie
+import com.wisnitech.repository.model.MovieDetails
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {

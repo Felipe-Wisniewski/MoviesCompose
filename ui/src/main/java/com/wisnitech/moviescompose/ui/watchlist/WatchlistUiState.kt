@@ -1,6 +1,6 @@
 package com.wisnitech.moviescompose.ui.watchlist
 
-import com.wisnitech.data.model.MovieResume
+import com.wisnitech.repository.model.MovieResume
 
 sealed interface WatchlistUiState {
     data object Loading : WatchlistUiState

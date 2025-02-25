@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.wisnitech.data.model.Movie
-import com.wisnitech.data.repositories.movie.MovieRepository
-import com.wisnitech.data.repositories.trending.TrendingRepository
+import com.wisnitech.repository.model.Movie
+import com.wisnitech.repository.repositories.movie.MovieRepository
+import com.wisnitech.repository.repositories.trending.TrendingRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

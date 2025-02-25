@@ -1,7 +1,7 @@
-package com.wisnitech.data.repositories.search
+package com.wisnitech.repository.repositories.search
 
 import androidx.paging.PagingData
-import com.wisnitech.data.model.MovieResume
+import com.wisnitech.repository.model.MovieResume
 import kotlinx.coroutines.flow.Flow
 
 interface SearchRepository {

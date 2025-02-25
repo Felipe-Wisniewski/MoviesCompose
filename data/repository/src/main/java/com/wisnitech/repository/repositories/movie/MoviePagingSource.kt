@@ -1,13 +1,13 @@
-package com.wisnitech.data.repositories.movie
+package com.wisnitech.repository.repositories.movie
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.wisnitech.data.model.Movie
 import com.wisnitech.data.remote.model.NetworkMovie
-import com.wisnitech.data.remote.model.asExternalModel
 import com.wisnitech.data.remote.source.movie.MovieNetworkDataSource
-import com.wisnitech.data.remote.utils.ApiResult
-import com.wisnitech.data.remote.utils.handleApiCall
+import com.wisnitech.repository.utils.ApiResult
+import com.wisnitech.repository.utils.handleApiCall
+import com.wisnitech.repository.model.Movie
+import com.wisnitech.repository.model.asExternalModel
 import java.io.IOException
 
 internal class MoviePagingSource(

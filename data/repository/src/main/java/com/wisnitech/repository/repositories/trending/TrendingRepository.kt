@@ -1,6 +1,6 @@
-package com.wisnitech.data.repositories.trending
+package com.wisnitech.repository.repositories.trending
 
-import com.wisnitech.data.model.Trending
+import com.wisnitech.repository.model.Trending
 import kotlinx.coroutines.flow.Flow
 
 interface TrendingRepository {

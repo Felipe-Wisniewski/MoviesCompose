@@ -1,6 +1,6 @@
 package com.wisnitech.moviescompose.ui.details
 
-import com.wisnitech.data.model.MovieDetails
+import com.wisnitech.repository.model.MovieDetails
 
 sealed interface MovieDetailsUiState {
     data object Loading : MovieDetailsUiState

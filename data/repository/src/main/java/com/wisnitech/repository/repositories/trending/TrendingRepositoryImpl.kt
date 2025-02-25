@@ -1,11 +1,11 @@
-package com.wisnitech.data.repositories.trending
+package com.wisnitech.repository.repositories.trending
 
-import com.wisnitech.data.model.Trending
 import com.wisnitech.data.remote.model.NetworkTrending
-import com.wisnitech.data.remote.model.asExternalModel
 import com.wisnitech.data.remote.source.trending.TrendingNetworkDataSource
-import com.wisnitech.data.remote.utils.ApiResult
-import com.wisnitech.data.remote.utils.handleApiCall
+import com.wisnitech.repository.model.Trending
+import com.wisnitech.repository.model.asExternalModel
+import com.wisnitech.repository.utils.ApiResult
+import com.wisnitech.repository.utils.handleApiCall
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

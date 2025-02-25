@@ -1,13 +1,13 @@
-package com.wisnitech.data.repositories.search
+package com.wisnitech.repository.repositories.search
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.wisnitech.data.model.MovieResume
 import com.wisnitech.data.remote.model.NetworkMovie
-import com.wisnitech.data.remote.model.asExternalResumeModel
 import com.wisnitech.data.remote.source.search.SearchNetworkDataSource
-import com.wisnitech.data.remote.utils.ApiResult
-import com.wisnitech.data.remote.utils.handleApiCall
+import com.wisnitech.repository.utils.ApiResult
+import com.wisnitech.repository.utils.handleApiCall
+import com.wisnitech.repository.model.MovieResume
+import com.wisnitech.repository.model.asExternalResumeModel
 import java.io.IOException
 
 class SearchPagingSource(

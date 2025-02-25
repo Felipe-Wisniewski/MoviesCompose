@@ -1,9 +1,9 @@
-package com.wisnitech.data.remote.utils
+package com.wisnitech.repository.utils
 
 import retrofit2.HttpException
 import retrofit2.Response
 
-internal suspend fun <T : Any> handleApiCall(execute: suspend () -> Response<T>): ApiResult<T> {
+suspend fun <T : Any> handleApiCall(execute: suspend () -> Response<T>): ApiResult<T> {
     return try {
         val response = execute()
         val body = response.body()

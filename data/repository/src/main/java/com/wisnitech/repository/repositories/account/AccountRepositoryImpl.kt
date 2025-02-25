@@ -1,13 +1,13 @@
-package com.wisnitech.data.repositories.account
+package com.wisnitech.repository.repositories.account
 
-import com.wisnitech.data.source.BuildConfig
-import com.wisnitech.data.model.MediaType
-import com.wisnitech.data.model.MovieResume
 import com.wisnitech.data.remote.model.RequestWatchlist
-import com.wisnitech.data.remote.model.asExternalResumeModel
 import com.wisnitech.data.remote.source.account.AccountNetworkDataSource
-import com.wisnitech.data.remote.utils.ApiResult
-import com.wisnitech.data.remote.utils.handleApiCall
+import com.wisnitech.repository.utils.ApiResult
+import com.wisnitech.repository.utils.handleApiCall
+import com.wisnitech.data.repository.BuildConfig
+import com.wisnitech.repository.model.MediaType
+import com.wisnitech.repository.model.MovieResume
+import com.wisnitech.repository.model.asExternalResumeModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

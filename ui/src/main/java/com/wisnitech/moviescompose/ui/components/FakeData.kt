@@ -1,7 +1,7 @@
 package com.wisnitech.moviescompose.ui.components
 
-import com.wisnitech.data.model.MediaType
-import com.wisnitech.data.model.MovieResume
+import com.wisnitech.repository.model.MediaType
+import com.wisnitech.repository.model.MovieResume
 
 val listMovieResume = listOf(
     MovieResume(
@@ -13,7 +13,7 @@ val listMovieResume = listOf(
         posterUrl = "",
         adult = false,
         language = "en",
-        genreIds = listOf(12,10751,16),
+        genreIds = listOf(12, 10751, 16),
         popularity = 3017.42f,
         premiereDay = "2024-12-18",
         voteAverage = 7.5f,

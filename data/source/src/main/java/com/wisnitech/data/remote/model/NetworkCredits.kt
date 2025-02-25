@@ -1,7 +1,6 @@
 package com.wisnitech.data.remote.model
 
 import com.google.gson.annotations.SerializedName
-import com.wisnitech.data.model.Person
 
 data class NetworkCredits(
     val cast: List<NetworkCast>?,
@@ -28,18 +27,4 @@ data class NetworkCrew(
     val profilePath: String?,
     val department: String?,
     val job: String?
-)
-
-fun NetworkCast.asExternalResumeModel() = Person(
-    id = id,
-    knownForDepartment = knownForDepartment ?: "-",
-    name = name ?: "-",
-    profileUrl = if (profilePath.isNullOrBlank()) null else com.wisnitech.data.remote.utils.IMAGE_URL + profilePath
-)
-
-fun NetworkCrew.asExternalResumeModel() = Person(
-    id = id,
-    knownForDepartment = knownForDepartment ?: "-",
-    name = name ?: "-",
-    profileUrl = if (profilePath.isNullOrBlank()) null else com.wisnitech.data.remote.utils.IMAGE_URL + profilePath
 )

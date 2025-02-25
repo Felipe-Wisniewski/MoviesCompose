@@ -49,8 +49,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
-import com.wisnitech.data.model.MovieDetails
-import com.wisnitech.data.model.Person
+import com.wisnitech.repository.model.MovieDetails
+import com.wisnitech.repository.model.Person
 import com.wisnitech.moviescompose.ui.R
 import com.wisnitech.moviescompose.ui.components.LoadingView
 

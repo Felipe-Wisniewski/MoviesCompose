@@ -1,14 +1,14 @@
-package com.wisnitech.data.repositories.movie
+package com.wisnitech.repository.repositories.movie
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.wisnitech.data.model.Movie
-import com.wisnitech.data.model.MovieDetails
-import com.wisnitech.data.remote.model.asExternalModel
 import com.wisnitech.data.remote.source.movie.MovieNetworkDataSource
-import com.wisnitech.data.remote.utils.ApiResult
-import com.wisnitech.data.remote.utils.handleApiCall
+import com.wisnitech.repository.utils.ApiResult
+import com.wisnitech.repository.utils.handleApiCall
+import com.wisnitech.repository.model.Movie
+import com.wisnitech.repository.model.MovieDetails
+import com.wisnitech.repository.model.asExternalModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
