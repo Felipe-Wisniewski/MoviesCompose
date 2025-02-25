@@ -1,110 +1,107 @@
 package com.wisnitech.moviescompose.ui.app
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.wisnitech.moviescompose.ui.R
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-fun MoviesTopAppBar(navController: NavHostController, scrollBehavior: TopAppBarScrollBehavior) {
+fun MoviesTopAppBar(
+    navController: NavHostController
+) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val canNavigateBack by remember(backStackEntry) {
         mutableStateOf(navController.previousBackStackEntry != null)
     }
 
-    Column {
-        TopAppBar(
-            title = {
-                Image(
-                    painter = painterResource(R.drawable.tmdb_alt_short),
-                    contentDescription = null,
-                    modifier = Modifier.width(100.dp)
-                )
-            },
-            navigationIcon = {
-                if (canNavigateBack) {
-                    IconButton(onClick = { navController.navigateUp() }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "back button"
-                        )
-                    }
-                }
-            },
-            actions = {
-                IconButton(onClick = { /* doSomething() */ }) {
+    val windowInsets = WindowInsets.systemBars
+    val innerPadding = windowInsets.asPaddingValues().calculateTopPadding()
+
+    Column(
+        modifier = Modifier
+            .height(104.dp + innerPadding)
+            .padding(top = innerPadding)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(64.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            if (canNavigateBack) {
+                IconButton(onClick = { navController.navigateUp() }) {
                     Icon(
-                        imageVector = Icons.Filled.AccountCircle,
-                        contentDescription = "Localized description"
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "back button",
+                        tint = Color.White
                     )
                 }
-            },
-//            expandedHeight = TopAppBarDefaults.TopAppBarExpandedHeight,
-//            windowInsets = TopAppBarDefaults.windowInsets,
-            colors = topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primary,
-                titleContentColor = MaterialTheme.colorScheme.secondary,
-            ),
-            scrollBehavior = scrollBehavior
-        )
+            }
 
-        TopAppBar(
-            title = {
-                RowFilters()
-            },
-//            expandedHeight = 40.dp,
-//            expandedHeight = TopAppBarDefaults.TopAppBarExpandedHeight,
-            windowInsets = WindowInsets(0.dp),
-            colors = topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primary,
-                titleContentColor = MaterialTheme.colorScheme.secondary,
-            ),
-            scrollBehavior = scrollBehavior
-        )
+            Image(
+                painter = painterResource(R.drawable.tmdb_alt_short),
+                contentDescription = null,
+                modifier = Modifier
+                    .width(100.dp)
+                    .padding(start = 16.dp)
+            )
+
+            IconButton(onClick = { }) {
+                Icon(
+                    imageVector = Icons.Filled.AccountCircle,
+                    contentDescription = "Localized description"
+                )
+            }
+
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(40.dp)
+                .padding(start = 16.dp, bottom = 8.dp)
+        ) {
+            TopBarFilterChip("Movies")
+            Spacer(modifier = Modifier.width(8.dp))
+            TopBarFilterChip("TV shows")
+        }
     }
 }
 
-@Composable
-fun RowFilters() {
-
-
-
-    Row {
-        TopBarFilterChip("Movies")
-        Spacer(modifier = Modifier.size(8.dp))
-        TopBarFilterChip("TV shows")
-    }
-}
 
 @Composable
 fun TopBarFilterChip(filter: String) {
@@ -128,4 +125,10 @@ fun TopBarFilterChip(filter: String) {
             null
         },
     )
+}
+
+@Preview
+@Composable
+fun PreviewTopAppBar() {
+    MoviesTopAppBar(rememberNavController())
 }

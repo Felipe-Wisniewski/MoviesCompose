@@ -21,6 +21,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -35,13 +36,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
 fun ListVideosWithResume(videos: LazyPagingItems<MovieResume>) {
-
-    /*when(searchItems.loadState.append) {
-            is LoadState.Loading -> {}
-            is LoadState.Error -> {}
-            else -> ListVideosWithResume(searchItems)
-        }*/
-
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(start = 16.dp, end = 16.dp),
@@ -54,6 +48,12 @@ fun ListVideosWithResume(videos: LazyPagingItems<MovieResume>) {
         ) { index ->
             val item = videos[index]
             item?.let { ItemVideoWithResume(it) }
+        }
+
+        if (videos.loadState.append == LoadState.Loading) {
+            item {
+                LoadingView()
+            }
         }
     }
 }
