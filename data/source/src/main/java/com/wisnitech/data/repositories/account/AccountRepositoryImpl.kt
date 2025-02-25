@@ -1,6 +1,6 @@
 package com.wisnitech.data.repositories.account
 
-import com.wisnitech.data.BuildConfig
+import com.wisnitech.data.source.BuildConfig
 import com.wisnitech.data.model.MediaType
 import com.wisnitech.data.model.MovieResume
 import com.wisnitech.data.remote.model.RequestWatchlist

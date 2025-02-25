@@ -22,7 +22,7 @@ fun MoviesApp() {
     var showTopAppBar by remember { mutableStateOf(true) }
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-    
+
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {

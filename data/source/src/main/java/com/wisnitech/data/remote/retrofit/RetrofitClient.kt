@@ -3,7 +3,7 @@ package com.wisnitech.data.remote.retrofit
 import io.nerdythings.okhttp.profiler.OkHttpProfilerInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import com.wisnitech.data.BuildConfig
+import com.wisnitech.data.source.BuildConfig
 import retrofit2.converter.gson.GsonConverterFactory
 
 private const val baseUrl: String = BuildConfig.BASE_URL

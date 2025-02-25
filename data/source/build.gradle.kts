@@ -17,7 +17,7 @@ val apiKey = properties["api-key"]
 val accountId = properties["account-id"]
 
 android {
-    namespace = "com.wisnitech.data"
+    namespace = "com.wisnitech.data.source"
     compileSdk = 35
 
     defaultConfig {
