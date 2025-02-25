@@ -18,7 +18,17 @@ class AccountRepositoryImpl @Inject constructor(
     private val accountNetworkDataSource: AccountNetworkDataSource
 ) : AccountRepository {
 
-    override fun saveMovieToWatchlist(requestWatchlist: RequestWatchlist): Flow<Unit> {
+    override fun saveOrRemoveToWatchlist(
+        isWatchlist: Boolean,
+        mediaType: String,
+        mediaId: Int
+    ): Flow<Boolean> {
+        val requestWatchlist = RequestWatchlist(
+            mediaType = mediaType,
+            mediaId = mediaId,
+            watchlist = !isWatchlist
+        )
+
         return flow {
             try {
                 val result = handleApiCall {
@@ -29,7 +39,7 @@ class AccountRepositoryImpl @Inject constructor(
                 }
 
                 when (result) {
-                    is ApiResult.Success -> emit(Unit)
+                    is ApiResult.Success -> emit(!isWatchlist)
                     is ApiResult.Error -> throw Exception("code:${result.code},message:${result.errorMsg}")
                     else -> throw Exception("An error occurred in the fun loadAllTrending")
                 }

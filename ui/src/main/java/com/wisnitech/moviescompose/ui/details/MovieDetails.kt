@@ -59,7 +59,6 @@ fun MovieDetailsScreen(
     viewModel: MovieDetailsViewModel = hiltViewModel(),
     onNavigateToPlayer: (movieKey: String) -> Unit
 ) {
-
     val uiState by viewModel.detailsUiState.collectAsStateWithLifecycle()
 
     when (uiState) {
@@ -73,7 +72,7 @@ fun MovieDetailsScreen(
             DetailsScreen(
                 movie,
                 onTrailerClick = { onNavigateToPlayer(it) },
-                onWatchlistClick = viewModel::saveOrRemoveToWatchlist,
+                onWatchlistClick = { viewModel.saveOrRemoveToWatchlist(movie.isWatchlist) },
                 onLikeClick = viewModel::setLikeMovie,
                 onUnlikeClick = viewModel::setUnlikeMovie,
                 onShareClick = { }

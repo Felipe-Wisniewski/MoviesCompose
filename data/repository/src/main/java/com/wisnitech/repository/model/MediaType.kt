@@ -1,7 +1,7 @@
 package com.wisnitech.repository.model
 
-enum class MediaType {
-    TV,
-    MOVIE,
-    PERSON
+enum class MediaType(val value: String) {
+    TV("tv"),
+    MOVIE("movie"),
+    PERSON("person")
 }

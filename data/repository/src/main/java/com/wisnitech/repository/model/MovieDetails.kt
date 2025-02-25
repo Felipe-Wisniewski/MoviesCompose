@@ -25,7 +25,8 @@ data class MovieDetails(
     val genres: List<String>?,
     val trailer: Trailer?,
     val cast: List<Person>?,
-    val director: Person?
+    val director: Person?,
+    var isWatchlist: Boolean = false
 )
 
 fun ResponseMovieDetails.asExternalModel() = MovieDetails(
