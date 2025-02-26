@@ -1,6 +1,6 @@
 package com.wisnitech.repository.model
 
-import com.wisnitech.data.remote.model.ResponseMovieDetails
+import com.wisnitech.source.remote.model.ResponseMovieDetails
 import com.wisnitech.repository.utils.FIND_CREW_JOB
 import com.wisnitech.repository.utils.FIND_VIDEO_TYPE
 import com.wisnitech.repository.utils.IMAGE_URL

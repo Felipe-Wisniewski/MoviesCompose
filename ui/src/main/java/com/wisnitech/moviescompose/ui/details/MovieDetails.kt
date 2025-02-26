@@ -1,5 +1,6 @@
 package com.wisnitech.moviescompose.ui.details
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -36,6 +37,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
@@ -60,6 +62,7 @@ fun MovieDetailsScreen(
     onNavigateToPlayer: (movieKey: String) -> Unit
 ) {
     val uiState by viewModel.detailsUiState.collectAsStateWithLifecycle()
+    val feedbackActions by viewModel.feedbackActions.collectAsStateWithLifecycle()
 
     when (uiState) {
         MovieDetailsUiState.Loading -> {
@@ -79,6 +82,18 @@ fun MovieDetailsScreen(
             )
         }
     }
+
+    val toastMessage = when(feedbackActions) {
+        DetailsActions.ADD_WATCHLIST -> "Added to Watchlist!"
+        DetailsActions.REMOVE_WATCHLIST -> "Removed to Watchlist!"
+        DetailsActions.ERROR_WATCHLIST -> "Error to Add/Remove Watchlist!"
+        null -> null
+    }
+
+    toastMessage?.let {
+        Toast.makeText(LocalContext.current, it, Toast.LENGTH_SHORT).show()
+    }
+
 }
 
 @Composable

@@ -1,6 +1,6 @@
 package com.wisnitech.repository.model
 
-import com.wisnitech.data.remote.model.NetworkVideo
+import com.wisnitech.source.remote.model.NetworkVideo
 
 data class Trailer(
     val id: String,

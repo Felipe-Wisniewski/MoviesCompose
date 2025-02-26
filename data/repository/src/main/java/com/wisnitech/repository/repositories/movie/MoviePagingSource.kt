@@ -2,8 +2,8 @@ package com.wisnitech.repository.repositories.movie
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.wisnitech.data.remote.model.NetworkMovie
-import com.wisnitech.data.remote.source.movie.MovieNetworkDataSource
+import com.wisnitech.source.remote.model.NetworkMovie
+import com.wisnitech.source.remote.source.movie.MovieNetworkDataSource
 import com.wisnitech.repository.utils.ApiResult
 import com.wisnitech.repository.utils.handleApiCall
 import com.wisnitech.repository.model.Movie

@@ -1,6 +1,6 @@
 package com.wisnitech.repository.model
 
-import com.wisnitech.data.remote.model.NetworkTrending
+import com.wisnitech.source.remote.model.NetworkTrending
 import com.wisnitech.repository.utils.IMAGE_URL
 
 data class Trending(

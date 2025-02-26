@@ -1,7 +1,7 @@
 package com.wisnitech.repository.model
 
-import com.wisnitech.data.remote.model.NetworkCast
-import com.wisnitech.data.remote.model.NetworkCrew
+import com.wisnitech.source.remote.model.NetworkCast
+import com.wisnitech.source.remote.model.NetworkCrew
 import com.wisnitech.repository.utils.IMAGE_URL
 
 data class Person(

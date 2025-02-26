@@ -66,6 +66,10 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.okhttp.profiler)
 
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
+
     implementation(libs.dagger.hilt)
     ksp(libs.dagger.ksp)
 

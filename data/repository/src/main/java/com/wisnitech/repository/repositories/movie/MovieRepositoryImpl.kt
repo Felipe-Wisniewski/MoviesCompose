@@ -3,7 +3,7 @@ package com.wisnitech.repository.repositories.movie
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.wisnitech.data.remote.source.movie.MovieNetworkDataSource
+import com.wisnitech.source.remote.source.movie.MovieNetworkDataSource
 import com.wisnitech.repository.utils.ApiResult
 import com.wisnitech.repository.utils.handleApiCall
 import com.wisnitech.repository.model.Movie

@@ -1,6 +1,6 @@
 package com.wisnitech.repository.model
 
-import com.wisnitech.data.remote.model.NetworkMovie
+import com.wisnitech.source.remote.model.NetworkMovie
 import com.wisnitech.repository.utils.IMAGE_URL
 
 data class Movie(

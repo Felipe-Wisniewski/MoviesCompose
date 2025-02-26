@@ -1,7 +1,8 @@
 package com.wisnitech.repository.model
 
-import com.wisnitech.data.remote.model.NetworkMovie
+import com.wisnitech.source.remote.model.NetworkMovie
 import com.wisnitech.repository.utils.IMAGE_URL
+import com.wisnitech.source.local.model.LocalWatchlist
 
 data class MovieResume(
     val id: Int,
@@ -58,4 +59,9 @@ fun NetworkMovie.asExternalResumeModel(type: MediaType) = MovieResume(
     premiereDay = firstAirDate,
     voteAverage = voteAverage,
     voteCount = voteCount
+)
+
+fun NetworkMovie.asLocalWatchlistModel(type: MediaType) = LocalWatchlist(
+    id = id,
+    type = type.value
 )

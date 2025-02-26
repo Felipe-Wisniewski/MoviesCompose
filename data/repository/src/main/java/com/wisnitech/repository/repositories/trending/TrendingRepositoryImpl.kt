@@ -1,7 +1,7 @@
 package com.wisnitech.repository.repositories.trending
 
-import com.wisnitech.data.remote.model.NetworkTrending
-import com.wisnitech.data.remote.source.trending.TrendingNetworkDataSource
+import com.wisnitech.source.remote.model.NetworkTrending
+import com.wisnitech.source.remote.source.trending.TrendingNetworkDataSource
 import com.wisnitech.repository.model.Trending
 import com.wisnitech.repository.model.asExternalModel
 import com.wisnitech.repository.utils.ApiResult

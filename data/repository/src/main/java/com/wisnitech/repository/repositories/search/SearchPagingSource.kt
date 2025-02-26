@@ -2,8 +2,8 @@ package com.wisnitech.repository.repositories.search
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.wisnitech.data.remote.model.NetworkMovie
-import com.wisnitech.data.remote.source.search.SearchNetworkDataSource
+import com.wisnitech.source.remote.model.NetworkMovie
+import com.wisnitech.source.remote.source.search.SearchNetworkDataSource
 import com.wisnitech.repository.utils.ApiResult
 import com.wisnitech.repository.utils.handleApiCall
 import com.wisnitech.repository.model.MovieResume
