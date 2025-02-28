@@ -29,7 +29,7 @@ data class MovieDetails(
     var isWatchlist: Boolean = false
 )
 
-fun ResponseMovieDetails.asExternalModel() = MovieDetails(
+fun ResponseMovieDetails.asExternalModel(isWatchlist: Boolean) = MovieDetails(
     id = id,
     title = title,
     overview = overview,
@@ -50,5 +50,6 @@ fun ResponseMovieDetails.asExternalModel() = MovieDetails(
     trailer = videos?.results?.find { it.type == FIND_VIDEO_TYPE && it.official }
         ?.asExternalResumeModel(),
     cast = credits?.cast?.sortedBy { it.order }?.take(6)?.map { it.asExternalResumeModel() },
-    director = credits?.crew?.find { it.job == FIND_CREW_JOB }?.asExternalResumeModel()
+    director = credits?.crew?.find { it.job == FIND_CREW_JOB }?.asExternalResumeModel(),
+    isWatchlist = isWatchlist
 )

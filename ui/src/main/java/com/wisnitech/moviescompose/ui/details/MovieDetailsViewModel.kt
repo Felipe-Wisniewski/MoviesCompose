@@ -1,5 +1,6 @@
 package com.wisnitech.moviescompose.ui.details
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -34,6 +35,7 @@ class MovieDetailsViewModel @Inject constructor(
             .catch { it.printStackTrace() }
             .map {
                 movieId = it.id
+                Log.d("FLMWG","isWatchlist: ${it.isWatchlist}")
                 MovieDetailsUiState.Success(it)
             }
             .stateIn(

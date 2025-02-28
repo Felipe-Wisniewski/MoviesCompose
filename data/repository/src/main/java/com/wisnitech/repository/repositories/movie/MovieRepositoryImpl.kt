@@ -1,5 +1,7 @@
 package com.wisnitech.repository.repositories.movie
 
+import android.util.Log
+import androidx.annotation.WorkerThread
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -9,12 +11,20 @@ import com.wisnitech.repository.utils.handleApiCall
 import com.wisnitech.repository.model.Movie
 import com.wisnitech.repository.model.MovieDetails
 import com.wisnitech.repository.model.asExternalModel
+import com.wisnitech.source.local.model.LocalWatchlist
+import com.wisnitech.source.local.source.WatchlistLocalDataSource
+import com.wisnitech.source.remote.model.ResponseMovieDetails
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
-    private val networkDataSource: MovieNetworkDataSource
+    private val networkDataSource: MovieNetworkDataSource,
+    private val watchlistLocalDataSource: WatchlistLocalDataSource
 ) : MovieRepository {
 
     override fun loadTopRatedMovies(): Flow<PagingData<Movie>> {
@@ -42,13 +52,23 @@ class MovieRepositoryImpl @Inject constructor(
         ).flow
     }
 
-    override fun loadMovieDetails(movieId: Int): Flow<MovieDetails> {
+    override fun loadMovieDetails(movieId: Int): Flow<MovieDetails> = combine(
+        watchlistLocalDataSource.loadLocalWatchlistById(movieId),
+        loadDetails(movieId)
+    ) { watchList, movie ->
+        movie.asExternalModel(watchList != null)
+    }
+
+    private fun loadDetails(movieId: Int): Flow<ResponseMovieDetails> {
         return flow {
             try {
                 val result = handleApiCall { networkDataSource.getMovieDetails(movieId) }
 
                 when (result) {
-                    is ApiResult.Success -> emit(result.data.asExternalModel())
+                    is ApiResult.Success -> {
+                        emit(result.data)
+                    }
+
                     is ApiResult.Error -> throw Exception("code:${result.code},message:${result.errorMsg}")
                     else -> throw Exception("An error occurred in the fun loadAllTrending")
                 }
