@@ -20,6 +20,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material3.Icon
@@ -62,6 +63,7 @@ fun MovieDetailsScreen(
     onNavigateToPlayer: (movieKey: String) -> Unit
 ) {
     val uiState by viewModel.detailsUiState.collectAsStateWithLifecycle()
+    val isWatchlist by viewModel.isWatchlist.collectAsStateWithLifecycle()
     val feedbackActions by viewModel.feedbackActions.collectAsStateWithLifecycle()
 
     when (uiState) {
@@ -74,6 +76,7 @@ fun MovieDetailsScreen(
 
             DetailsScreen(
                 movie,
+                isWatchlist,
                 onTrailerClick = { onNavigateToPlayer(it) },
                 onWatchlistClick = { viewModel.saveOrRemoveToWatchlist(movie.isWatchlist) },
                 onLikeClick = viewModel::setLikeMovie,
@@ -83,7 +86,7 @@ fun MovieDetailsScreen(
         }
     }
 
-    val toastMessage = when(feedbackActions) {
+    val toastMessage = when (feedbackActions) {
         DetailsActions.ADD_WATCHLIST -> "Added to Watchlist!"
         DetailsActions.REMOVE_WATCHLIST -> "Removed to Watchlist!"
         DetailsActions.ERROR_WATCHLIST -> "Error to Add/Remove Watchlist!"
@@ -99,6 +102,7 @@ fun MovieDetailsScreen(
 @Composable
 fun DetailsScreen(
     movieDetails: MovieDetails,
+    isWatchlist: Boolean,
     onTrailerClick: (movieKey: String) -> Unit,
     onWatchlistClick: () -> Unit,
     onLikeClick: () -> Unit,
@@ -137,6 +141,7 @@ fun DetailsScreen(
 
             OptionsButtons(
                 movieDetails = movieDetails,
+                isWatchlist = isWatchlist,
                 onTrailerClick = { onTrailerClick(it) },
                 onWatchlistClick = { onWatchlistClick() },
                 onLikeClick = { onLikeClick() },
@@ -263,6 +268,7 @@ fun IncludedStreams() {
 @Composable
 fun OptionsButtons(
     movieDetails: MovieDetails,
+    isWatchlist: Boolean,
     onTrailerClick: (videoKey: String) -> Unit,
     onWatchlistClick: () -> Unit,
     onLikeClick: () -> Unit,
@@ -281,7 +287,8 @@ fun OptionsButtons(
             }
         }
 
-        OptionButton(Icons.Outlined.Add, "Watchlist") {
+        val watchlistIcon = if (isWatchlist) Icons.Outlined.Check else Icons.Outlined.Add
+        OptionButton(watchlistIcon, "Watchlist") {
             onWatchlistClick()
         }
 

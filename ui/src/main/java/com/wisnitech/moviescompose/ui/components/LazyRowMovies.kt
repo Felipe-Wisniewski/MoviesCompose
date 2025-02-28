@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
@@ -36,14 +37,15 @@ fun LazyRowMovies(
     movieId: (id: Int) -> Unit
 ) {
     Text(
+        text = header,
         modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
-        text = header
+        fontWeight = FontWeight.Bold
     )
 
     LazyRow(
-        modifier = Modifier.height(200.dp),
+        modifier = Modifier.height(240.dp),
         contentPadding = PaddingValues(start = 16.dp, end = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(
             count = movies.itemCount,
@@ -62,7 +64,7 @@ fun LazyRowMovies(
             item {
                 Column(
                     modifier = Modifier
-                        .height(200.dp)
+                        .height(240.dp)
                         .fillMaxWidth()
                         .padding(32.dp),
                     verticalArrangement = Arrangement.Center
@@ -85,7 +87,7 @@ fun ItemMovie(movie: Movie, movieId: (id: Int) -> Unit) {
         placeholder = painterResource(R.drawable.placeholder_poster),
         contentDescription = "${movie.title} poster",
         modifier = Modifier
-            .height(200.dp)
+            .height(240.dp)
             .clip(RoundedCornerShape(8.dp))
             .clickable { movieId(movie.id) },
     )

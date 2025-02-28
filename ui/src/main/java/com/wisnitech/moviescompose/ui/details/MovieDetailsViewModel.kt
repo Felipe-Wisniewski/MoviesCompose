@@ -30,12 +30,18 @@ class MovieDetailsViewModel @Inject constructor(
 
     private var movieId = -1
 
+    private val _feedbackActions = MutableStateFlow<DetailsActions?>(null)
+    val feedbackActions: StateFlow<DetailsActions?> = _feedbackActions
+
+    private val _isWatchlist = MutableStateFlow(false)
+    val isWatchlist: StateFlow<Boolean> = _isWatchlist
+
     val detailsUiState: StateFlow<MovieDetailsUiState> =
         moviesRepository.loadMovieDetails(route.movieId)
             .catch { it.printStackTrace() }
             .map {
                 movieId = it.id
-                Log.d("FLMWG","isWatchlist: ${it.isWatchlist}")
+                _isWatchlist.value = it.isWatchlist
                 MovieDetailsUiState.Success(it)
             }
             .stateIn(
@@ -43,9 +49,6 @@ class MovieDetailsViewModel @Inject constructor(
                 started = SharingStarted.WhileSubscribed(5_000),
                 initialValue = MovieDetailsUiState.Loading
             )
-
-    private val _feedbackActions = MutableStateFlow<DetailsActions?>(null)
-    val feedbackActions: StateFlow<DetailsActions?> = _feedbackActions
 
     fun saveOrRemoveToWatchlist(isWatchlist: Boolean) {
         viewModelScope.launch {
@@ -55,6 +58,7 @@ class MovieDetailsViewModel @Inject constructor(
                     _feedbackActions.value = DetailsActions.ERROR_WATCHLIST
                 }
                 .collect {
+                    _isWatchlist.value = it
                     _feedbackActions.value = if (it) DetailsActions.ADD_WATCHLIST
                     else DetailsActions.REMOVE_WATCHLIST
                 }

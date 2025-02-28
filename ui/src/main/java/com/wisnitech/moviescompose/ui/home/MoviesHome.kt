@@ -40,15 +40,15 @@ fun MoviesHome(
             else -> Unit
         }
 
-        LazyRowMovies("Top Rated Movies", topRatedMovies) { movieId ->
+        LazyRowMovies("Top-rated movies >", topRatedMovies) { movieId ->
             onNavigateToDetails(movieId)
         }
 
-        LazyRowMovies("Popular Movies", popularMovies) { movieId ->
+        LazyRowMovies("Popular movies >", popularMovies) { movieId ->
             onNavigateToDetails(movieId)
         }
 
-        LazyRowMovies("Upcoming Movies", upcomingMovies) { movieId ->
+        LazyRowMovies("Upcoming movies >", upcomingMovies) { movieId ->
             onNavigateToDetails(movieId)
         }
     }
