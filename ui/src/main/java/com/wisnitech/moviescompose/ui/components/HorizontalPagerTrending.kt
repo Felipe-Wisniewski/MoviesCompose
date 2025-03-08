@@ -1,6 +1,7 @@
 package com.wisnitech.moviescompose.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,7 +35,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 
 @Composable
-fun HorizontalPagerTrending(trending: List<Trending>) {
+fun HorizontalPagerTrending(
+    trending: List<Trending>
+) {
     val pagerState = rememberPagerState { trending.count() }
 
     Column(modifier = Modifier.fillMaxWidth()) {
@@ -55,7 +58,9 @@ fun HorizontalPagerTrending(trending: List<Trending>) {
                         .build(),
                     placeholder = painterResource(R.drawable.placeholder_backdrop),
                     contentDescription = itemName,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {  },
                 )
                 Text(
                     text = itemName,

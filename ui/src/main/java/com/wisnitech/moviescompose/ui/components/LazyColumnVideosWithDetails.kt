@@ -32,13 +32,14 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.wisnitech.repository.model.MovieResume
 import com.wisnitech.moviescompose.ui.R
+import com.wisnitech.moviescompose.ui.utils.listMovieResume
 import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
 fun ListVideosWithResume(videos: LazyPagingItems<MovieResume>) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(start = 16.dp, end = 16.dp),
+        contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(

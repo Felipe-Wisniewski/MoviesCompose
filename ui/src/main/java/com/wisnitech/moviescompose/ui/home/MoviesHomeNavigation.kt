@@ -4,7 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.wisnitech.moviescompose.ui.details.MovieDetailsScreen
+import com.wisnitech.moviescompose.ui.details.movie.MovieDetailsScreen
 import com.wisnitech.moviescompose.ui.search.SearchScreen
 import com.wisnitech.moviescompose.ui.player.YouTubePlayerScreen
 import com.wisnitech.moviescompose.ui.watchlist.WatchlistScreen

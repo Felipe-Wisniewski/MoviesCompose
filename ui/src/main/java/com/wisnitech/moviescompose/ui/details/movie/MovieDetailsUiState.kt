@@ -1,4 +1,4 @@
-package com.wisnitech.moviescompose.ui.details
+package com.wisnitech.moviescompose.ui.details.movie
 
 import com.wisnitech.repository.model.MovieDetails
 

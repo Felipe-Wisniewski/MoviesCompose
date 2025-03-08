@@ -1,4 +1,4 @@
-package com.wisnitech.moviescompose.ui.details
+package com.wisnitech.moviescompose.ui.details.movie
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -56,6 +56,7 @@ import com.wisnitech.repository.model.MovieDetails
 import com.wisnitech.repository.model.Person
 import com.wisnitech.moviescompose.ui.R
 import com.wisnitech.moviescompose.ui.components.LoadingView
+import com.wisnitech.moviescompose.ui.details.DetailsActions
 
 @Composable
 fun MovieDetailsScreen(

@@ -1,4 +1,4 @@
-package com.wisnitech.moviescompose.ui.components
+package com.wisnitech.moviescompose.ui.utils
 
 import com.wisnitech.repository.model.MediaType
 import com.wisnitech.repository.model.MovieResume

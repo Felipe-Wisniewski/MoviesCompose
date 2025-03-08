@@ -1,10 +1,10 @@
-package com.wisnitech.moviescompose.ui.details
+package com.wisnitech.moviescompose.ui.details.movie
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.wisnitech.moviescompose.ui.details.DetailsActions
 import com.wisnitech.moviescompose.ui.home.MovieDetailsRoute
 import com.wisnitech.repository.model.MediaType
 import com.wisnitech.repository.repositories.account.AccountRepository
