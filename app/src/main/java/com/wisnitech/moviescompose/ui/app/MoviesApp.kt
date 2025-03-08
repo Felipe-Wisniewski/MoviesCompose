@@ -20,6 +20,7 @@ import com.wisnitech.moviescompose.navigation.MainNavHost
 fun MoviesApp() {
     val navController = rememberNavController()
     var showTopAppBar by remember { mutableStateOf(true) }
+    var showTopAppBarFilters by remember { mutableStateOf(false) }
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
@@ -28,7 +29,7 @@ fun MoviesApp() {
         topBar = {
             if (showTopAppBar) {
                 FlexibleTopBar(scrollBehavior = scrollBehavior) {
-                    MoviesTopAppBar(navController = navController)
+                    MoviesTopAppBar(navController = navController, showTopAppBarFilters)
                 }
             }
         },
@@ -42,7 +43,10 @@ fun MoviesApp() {
         MainNavHost(
             modifier = Modifier.padding(innerPadding),
             navController = navController,
-            showTopAppBar = { showTopAppBar = it }
+            topAppBarConfig  = { showBar,showFilters ->
+                showTopAppBar = showBar
+                showTopAppBarFilters = showFilters
+            }
         )
     }
 }

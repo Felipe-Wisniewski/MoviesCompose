@@ -11,7 +11,7 @@ import com.wisnitech.moviescompose.ui.home.moviesHomeNavGraph
 fun MainNavHost(
     modifier: Modifier,
     navController: NavHostController,
-    showTopAppBar: (show: Boolean) -> Unit
+    topAppBarConfig: (showBar: Boolean, showFilters:Boolean) -> Unit
 ) {
 
     NavHost(
@@ -20,7 +20,9 @@ fun MainNavHost(
         startDestination = MoviesHomeRoute
     ) {
 
-        moviesHomeNavGraph(navController) { showTopAppBar(it) }
+        moviesHomeNavGraph(navController) {  showBar,showFilters ->
+            topAppBarConfig(showBar,showFilters)
+        }
 
     }
 }

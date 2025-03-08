@@ -27,11 +27,11 @@ data class YouTubeScreenRoute(val movieKey: String)
 
 fun NavGraphBuilder.moviesHomeNavGraph(
     navController: NavHostController,
-    showTopAppBar: (show: Boolean) -> Unit
+    topAppBarConfig: (showBar: Boolean, showFilters:Boolean) -> Unit
 ) {
 
     composable<MoviesHomeRoute> {
-        showTopAppBar(true)
+        topAppBarConfig(true, true)
 
         MoviesHome { movieId ->
             navController.navigate(route = MovieDetailsRoute(movieId))
@@ -39,18 +39,18 @@ fun NavGraphBuilder.moviesHomeNavGraph(
     }
 
     composable<WatchlistScreenRoute> {
-        showTopAppBar(true)
+        topAppBarConfig(true, true)
         WatchlistScreen()
     }
 
     composable<SearchScreenRoute> {
-        showTopAppBar(false)
+        topAppBarConfig(false, false)
 
         SearchScreen()
     }
 
     composable<MovieDetailsRoute> {
-        showTopAppBar(true)
+        topAppBarConfig(true,false)
 
         MovieDetailsScreen { movieKey ->
             navController.navigate(route = YouTubeScreenRoute(movieKey))
@@ -58,8 +58,8 @@ fun NavGraphBuilder.moviesHomeNavGraph(
     }
 
     composable<YouTubeScreenRoute> { backStackEntry  ->
-        showTopAppBar(false
-        )
+        topAppBarConfig(false,false)
+
         val route = backStackEntry.toRoute<YouTubeScreenRoute>()
 
         YouTubePlayerScreen(route.movieKey) {

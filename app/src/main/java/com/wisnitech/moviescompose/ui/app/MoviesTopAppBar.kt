@@ -17,11 +17,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,9 +40,11 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.wisnitech.moviescompose.ui.R
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MoviesTopAppBar(
-    navController: NavHostController
+    navController: NavHostController,
+    showFilters: Boolean = false
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val canNavigateBack by remember(backStackEntry) {
@@ -50,9 +54,14 @@ fun MoviesTopAppBar(
     val windowInsets = WindowInsets.systemBars
     val innerPadding = windowInsets.asPaddingValues().calculateTopPadding()
 
+    val topBarHeight by remember(showFilters) {
+        if (showFilters) mutableStateOf(104.dp + innerPadding)
+        else mutableStateOf(TopAppBarDefaults.MediumAppBarCollapsedHeight + innerPadding)
+    }
+
     Column(
         modifier = Modifier
-            .height(104.dp + innerPadding)
+            .height(topBarHeight)
             .padding(top = innerPadding)
     ) {
         Row(
@@ -83,25 +92,26 @@ fun MoviesTopAppBar(
             IconButton(onClick = { }) {
                 Icon(
                     imageVector = Icons.Filled.AccountCircle,
-                    contentDescription = "Localized description"
+                    contentDescription = "Account settings button"
                 )
             }
 
         }
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(40.dp)
-                .padding(start = 16.dp, bottom = 8.dp)
-        ) {
-            TopBarFilterChip("Movies")
-            Spacer(modifier = Modifier.width(8.dp))
-            TopBarFilterChip("TV shows")
+        if (showFilters) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(40.dp)
+                    .padding(start = 16.dp, bottom = 8.dp)
+            ) {
+                TopBarFilterChip("Movies")
+                Spacer(modifier = Modifier.width(8.dp))
+                TopBarFilterChip("TV shows")
+            }
         }
     }
 }
-
 
 @Composable
 fun TopBarFilterChip(filter: String) {
