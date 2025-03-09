@@ -6,7 +6,7 @@ import com.wisnitech.repository.utils.IMAGE_URL
 data class Trending(
     val id: Int,
     val title: String,
-    val mediaType: MediaType?,
+    val mediaType: MediaType,
     val backdropUrl: String?
 )
 
@@ -17,6 +17,6 @@ fun NetworkTrending.asExternalModel() = Trending(
         MediaType.MOVIE -> movieTitle ?: "-"
         else -> "-"
     },
-    mediaType = MediaType.entries.firstOrNull { it.name == mediaType.uppercase() },
+    mediaType = MediaType.entries.first { it.name == mediaType.uppercase() },
     backdropUrl = if (backdropPath.isNullOrBlank()) null else IMAGE_URL + backdropPath
 )

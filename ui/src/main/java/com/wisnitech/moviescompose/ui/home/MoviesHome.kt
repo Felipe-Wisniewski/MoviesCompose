@@ -13,11 +13,12 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.wisnitech.moviescompose.ui.components.LoadingView
 import com.wisnitech.moviescompose.ui.components.HorizontalPagerTrending
 import com.wisnitech.moviescompose.ui.components.LazyRowMovies
+import com.wisnitech.repository.model.MediaType
 
 @Composable
 fun MoviesHome(
     viewModel: MoviesHomeViewModel = hiltViewModel(),
-    onNavigateToDetails: (movieId: Int) -> Unit
+    onNavigateToDetails: (mediaType: MediaType, mediaId: Int) -> Unit
 ) {
     val trendingUiState by viewModel.trendingUiState.collectAsStateWithLifecycle()
     val topRatedMovies = viewModel.topRatedMovies.collectAsLazyPagingItems()
@@ -34,22 +35,24 @@ fun MoviesHome(
 
             is TrendingUiState.Success -> {
                 val trending = (trendingUiState as TrendingUiState.Success).trending
-                HorizontalPagerTrending(trending)
+                HorizontalPagerTrending(trending) { mediaType, mediaId ->
+                    onNavigateToDetails(mediaType, mediaId)
+                }
             }
 
             else -> Unit
         }
 
         LazyRowMovies("Top-rated movies >", topRatedMovies) { movieId ->
-            onNavigateToDetails(movieId)
+            onNavigateToDetails(MediaType.MOVIE, movieId)
         }
 
         LazyRowMovies("Popular movies >", popularMovies) { movieId ->
-            onNavigateToDetails(movieId)
+            onNavigateToDetails(MediaType.MOVIE, movieId)
         }
 
         LazyRowMovies("Upcoming movies >", upcomingMovies) { movieId ->
-            onNavigateToDetails(movieId)
+            onNavigateToDetails(MediaType.MOVIE, movieId)
         }
     }
 }

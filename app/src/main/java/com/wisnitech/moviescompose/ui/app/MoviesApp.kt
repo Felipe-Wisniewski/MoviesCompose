@@ -22,7 +22,8 @@ fun MoviesApp() {
     var showTopAppBar by remember { mutableStateOf(true) }
     var showTopAppBarFilters by remember { mutableStateOf(false) }
 
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+    val scrollBehavior = if (showTopAppBarFilters) TopAppBarDefaults.pinnedScrollBehavior()
+    else TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -43,7 +44,7 @@ fun MoviesApp() {
         MainNavHost(
             modifier = Modifier.padding(innerPadding),
             navController = navController,
-            topAppBarConfig  = { showBar,showFilters ->
+            topAppBarConfig = { showBar, showFilters ->
                 showTopAppBar = showBar
                 showTopAppBarFilters = showFilters
             }

@@ -31,12 +31,14 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.wisnitech.repository.model.Trending
 import com.wisnitech.moviescompose.ui.R
+import com.wisnitech.repository.model.MediaType
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 
 @Composable
 fun HorizontalPagerTrending(
-    trending: List<Trending>
+    trending: List<Trending>,
+    onNavigateToDetails: (mediaType: MediaType, mediaId: Int) -> Unit
 ) {
     val pagerState = rememberPagerState { trending.count() }
 
@@ -60,7 +62,7 @@ fun HorizontalPagerTrending(
                     contentDescription = itemName,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable {  },
+                        .clickable { onNavigateToDetails(item.mediaType, item.id) },
                 )
                 Text(
                     text = itemName,

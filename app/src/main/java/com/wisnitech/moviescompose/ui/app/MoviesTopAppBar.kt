@@ -55,14 +55,14 @@ fun MoviesTopAppBar(
     val innerPadding = windowInsets.asPaddingValues().calculateTopPadding()
 
     val topBarHeight by remember(showFilters) {
-        if (showFilters) mutableStateOf(104.dp + innerPadding)
-        else mutableStateOf(TopAppBarDefaults.MediumAppBarCollapsedHeight + innerPadding)
+        if (showFilters) mutableStateOf(104.dp)
+        else mutableStateOf(TopAppBarDefaults.MediumAppBarCollapsedHeight)
     }
 
     Column(
         modifier = Modifier
-            .height(topBarHeight)
             .padding(top = innerPadding)
+            .height(topBarHeight)
     ) {
         Row(
             modifier = Modifier
