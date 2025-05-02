@@ -6,6 +6,7 @@ import com.wisnitech.repository.model.MovieDetails
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
+    fun loadNowPlayingMovies(): Flow<PagingData<Movie>>
     fun loadTopRatedMovies(): Flow<PagingData<Movie>>
     fun loadPopularMovies(): Flow<PagingData<Movie>>
     fun loadUpcomingMovies(): Flow<PagingData<Movie>>

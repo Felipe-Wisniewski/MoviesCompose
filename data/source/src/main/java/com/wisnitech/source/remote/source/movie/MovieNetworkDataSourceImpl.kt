@@ -8,9 +8,11 @@ internal class MovieNetworkDataSourceImpl @Inject constructor(
     private val api: MovieApi
 ) : MovieNetworkDataSource {
 
-    override suspend fun getPopularMovies(page: Int) = api.getPopularMovies(page)
+    override suspend fun getNowPlayingMovies(page: Int) = api.getNowPlayingMovies(page)
 
     override suspend fun getTopRatedMovies(page: Int) = api.getTopRatedMovies(page)
+
+    override suspend fun getPopularMovies(page: Int) = api.getPopularMovies(page)
 
     override suspend fun getUpcomingMovies(page: Int) = api.getUpcomingMovies(page)
 

@@ -1,7 +1,5 @@
 package com.wisnitech.repository.repositories.movie
 
-import android.util.Log
-import androidx.annotation.WorkerThread
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -11,21 +9,21 @@ import com.wisnitech.repository.utils.handleApiCall
 import com.wisnitech.repository.model.Movie
 import com.wisnitech.repository.model.MovieDetails
 import com.wisnitech.repository.model.asExternalModel
-import com.wisnitech.source.local.model.LocalWatchlist
 import com.wisnitech.source.local.source.WatchlistLocalDataSource
 import com.wisnitech.source.remote.model.ResponseMovieDetails
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
     private val networkDataSource: MovieNetworkDataSource,
     private val watchlistLocalDataSource: WatchlistLocalDataSource
 ) : MovieRepository {
+
+    override fun loadNowPlayingMovies(): Flow<PagingData<Movie>> {
+        return setPager(MoviesCall.NOW_PLAYING)
+    }
 
     override fun loadTopRatedMovies(): Flow<PagingData<Movie>> {
         return setPager(MoviesCall.TOP_RATED)

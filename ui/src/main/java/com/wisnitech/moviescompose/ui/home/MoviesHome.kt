@@ -21,9 +21,13 @@ fun MoviesHome(
     onNavigateToDetails: (mediaType: MediaType, mediaId: Int) -> Unit
 ) {
     val trendingUiState by viewModel.trendingUiState.collectAsStateWithLifecycle()
+
+    val nowPlayingMovies = viewModel.nowPlayingMovies.collectAsLazyPagingItems()
     val topRatedMovies = viewModel.topRatedMovies.collectAsLazyPagingItems()
-    val popularMovies = viewModel.popularMovies.collectAsLazyPagingItems()
     val upcomingMovies = viewModel.upcomingMovies.collectAsLazyPagingItems()
+
+    val popularTvShows = viewModel.popularTvShows.collectAsLazyPagingItems()
+    val topRatedTvShows = viewModel.topRatedTvShows.collectAsLazyPagingItems()
 
     Column(
         modifier = Modifier
@@ -43,16 +47,24 @@ fun MoviesHome(
             else -> Unit
         }
 
-        LazyRowMovies("Top-rated movies >", topRatedMovies) { movieId ->
+        LazyRowMovies("Now playing movies >", nowPlayingMovies) { movieId ->
             onNavigateToDetails(MediaType.MOVIE, movieId)
         }
 
-        LazyRowMovies("Popular movies >", popularMovies) { movieId ->
+        LazyRowMovies("Top-rated movies >", topRatedMovies) { movieId ->
             onNavigateToDetails(MediaType.MOVIE, movieId)
         }
 
         LazyRowMovies("Upcoming movies >", upcomingMovies) { movieId ->
             onNavigateToDetails(MediaType.MOVIE, movieId)
+        }
+
+        LazyRowMovies("Popular tv shows >", popularTvShows) { tvId ->
+            onNavigateToDetails(MediaType.TV, tvId)
+        }
+
+        LazyRowMovies("Top-rated tv shows >", topRatedTvShows) { tvId ->
+            onNavigateToDetails(MediaType.TV, tvId)
         }
     }
 }

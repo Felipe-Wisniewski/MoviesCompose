@@ -8,6 +8,8 @@ import com.wisnitech.repository.repositories.search.SearchRepository
 import com.wisnitech.repository.repositories.search.SearchRepositoryImpl
 import com.wisnitech.repository.repositories.trending.TrendingRepository
 import com.wisnitech.repository.repositories.trending.TrendingRepositoryImpl
+import com.wisnitech.repository.repositories.tv.TvRepository
+import com.wisnitech.repository.repositories.tv.TvRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -17,15 +19,20 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
     @Binds
+    abstract fun bindTrendingRepository(
+        trendingRepository: TrendingRepositoryImpl
+    ): TrendingRepository
+
+
+    @Binds
     abstract fun bindMovieRepository(
         moviesRepository: MovieRepositoryImpl
     ): MovieRepository
 
-
     @Binds
-    abstract fun bindTrendingRepository(
-        trendingRepository: TrendingRepositoryImpl
-    ): TrendingRepository
+    abstract fun bindTvRepository(
+        tvRepository: TvRepositoryImpl
+    ): TvRepository
 
     @Binds
     abstract fun bindAccountRepository(

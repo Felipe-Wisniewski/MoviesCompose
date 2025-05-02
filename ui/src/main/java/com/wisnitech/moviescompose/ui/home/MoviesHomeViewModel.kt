@@ -7,6 +7,7 @@ import androidx.paging.cachedIn
 import com.wisnitech.repository.model.Movie
 import com.wisnitech.repository.repositories.movie.MovieRepository
 import com.wisnitech.repository.repositories.trending.TrendingRepository
+import com.wisnitech.repository.repositories.tv.TvRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -19,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MoviesHomeViewModel @Inject constructor(
     trendingRepository: TrendingRepository,
-    moviesRepository: MovieRepository
+    moviesRepository: MovieRepository,
+    tvRepository: TvRepository
 ) : ViewModel() {
 
     val trendingUiState: StateFlow<TrendingUiState> = trendingRepository.loadAllTrending()
@@ -34,6 +36,15 @@ class MoviesHomeViewModel @Inject constructor(
             initialValue = TrendingUiState.Loading
         )
 
+    val nowPlayingMovies: StateFlow<PagingData<Movie>> = moviesRepository.loadNowPlayingMovies()
+        .distinctUntilChanged()
+        .cachedIn(viewModelScope)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = PagingData.empty()
+        )
+
     val topRatedMovies: StateFlow<PagingData<Movie>> = moviesRepository.loadTopRatedMovies()
         .distinctUntilChanged()
         .cachedIn(viewModelScope)
@@ -43,7 +54,7 @@ class MoviesHomeViewModel @Inject constructor(
             initialValue = PagingData.empty()
         )
 
-    val popularMovies: StateFlow<PagingData<Movie>> = moviesRepository.loadPopularMovies()
+    val upcomingMovies: StateFlow<PagingData<Movie>> = moviesRepository.loadUpcomingMovies()
         .distinctUntilChanged()
         .cachedIn(viewModelScope)
         .stateIn(
@@ -52,7 +63,16 @@ class MoviesHomeViewModel @Inject constructor(
             initialValue = PagingData.empty()
         )
 
-    val upcomingMovies: StateFlow<PagingData<Movie>> = moviesRepository.loadUpcomingMovies()
+    val popularTvShows: StateFlow<PagingData<Movie>> = tvRepository.loadPopularTvShows()
+        .distinctUntilChanged()
+        .cachedIn(viewModelScope)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = PagingData.empty()
+        )
+
+    val topRatedTvShows: StateFlow<PagingData<Movie>> = tvRepository.loadTopRatedTvShows()
         .distinctUntilChanged()
         .cachedIn(viewModelScope)
         .stateIn(

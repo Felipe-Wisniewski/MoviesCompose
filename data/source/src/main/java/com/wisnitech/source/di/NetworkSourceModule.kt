@@ -13,6 +13,9 @@ import com.wisnitech.source.remote.source.search.SearchNetworkDataSourceImpl
 import com.wisnitech.source.remote.source.trending.TrendingApi
 import com.wisnitech.source.remote.source.trending.TrendingNetworkDataSource
 import com.wisnitech.source.remote.source.trending.TrendingNetworkDataSourceImpl
+import com.wisnitech.source.remote.source.tv.TvApi
+import com.wisnitech.source.remote.source.tv.TvNetworkDataSource
+import com.wisnitech.source.remote.source.tv.TvNetworkDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -25,6 +28,11 @@ internal object ApiModule {
     @Provides
     internal fun provideMovieApi(): MovieApi {
         return RetrofitClient.generate<MovieApi>()
+    }
+
+    @Provides
+    internal fun provideTvApi(): TvApi {
+        return RetrofitClient.generate<TvApi>()
     }
 
     @Provides
@@ -50,6 +58,11 @@ internal abstract class NetworkDataSourceModule {
     internal abstract fun bindMovieNetworkDataSource(
         networkDataSource: MovieNetworkDataSourceImpl
     ): MovieNetworkDataSource
+
+    @Binds
+    internal abstract fun bindTvNetworkDataSource(
+        networkDataSource: TvNetworkDataSourceImpl
+    ): TvNetworkDataSource
 
     @Binds
     internal abstract fun bindTrendingNetworkDataSource(

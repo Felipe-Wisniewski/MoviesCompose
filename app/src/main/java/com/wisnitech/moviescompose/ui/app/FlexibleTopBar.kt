@@ -1,5 +1,6 @@
 package com.wisnitech.moviescompose.ui.app
 
+import android.util.Log
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.AnimationState
@@ -54,6 +55,7 @@ fun FlexibleTopBar(
     var heightOffsetLimit by remember { mutableFloatStateOf(0f) }
 
     LaunchedEffect(heightOffsetLimit) {
+        Log.d("FLMWG","scrollBehavior?.state?.heightOffsetLimit ${scrollBehavior?.state?.heightOffsetLimit}")
         if (scrollBehavior?.state?.heightOffsetLimit != heightOffsetLimit) {
             scrollBehavior?.state?.heightOffsetLimit = heightOffsetLimit
         }
@@ -101,9 +103,23 @@ fun FlexibleTopBar(
             measurePolicy = { measurable, constraints ->
                 val placeable = measurable.first().measure(constraints.copy(minWidth = 0))
                 heightOffsetLimit = placeable.height.toFloat() * -1
+
+                Log.d("FLMWG","+++++++++++++++++++++++++++++++++++++++++++")
+                Log.d("FLMWG","heightOffsetLimit: $heightOffsetLimit")
+
                 val scrollOffset = scrollBehavior?.state?.heightOffset ?: 0f
+                Log.d("FLMWG","scrollOffset: $scrollOffset")
+
+                Log.d("FLMWG","height: ${placeable.height.toFloat()}")
+
                 val height = placeable.height.toFloat() + scrollOffset
                 val layoutHeight = height.roundToInt()
+                Log.d("FLMWG","layoutHeight: $layoutHeight")
+
+                Log.d("FLMWG","maxWidth: ${constraints.maxWidth}")
+
+//                if (layoutHeight < 0) layoutHeight = 0
+
                 layout(constraints.maxWidth, layoutHeight) {
                     placeable.place(0, scrollOffset.toInt())
                 }

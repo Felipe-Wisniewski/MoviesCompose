@@ -51,13 +51,13 @@ fun MoviesTopAppBar(
         mutableStateOf(navController.previousBackStackEntry != null)
     }
 
-    val windowInsets = WindowInsets.systemBars
-    val innerPadding = windowInsets.asPaddingValues().calculateTopPadding()
-
     val topBarHeight by remember(showFilters) {
         if (showFilters) mutableStateOf(104.dp)
         else mutableStateOf(TopAppBarDefaults.MediumAppBarCollapsedHeight)
     }
+
+    val windowInsets = WindowInsets.systemBars
+    val innerPadding = windowInsets.asPaddingValues().calculateTopPadding()
 
     Column(
         modifier = Modifier
@@ -140,5 +140,5 @@ fun TopBarFilterChip(filter: String) {
 @Preview
 @Composable
 fun PreviewTopAppBar() {
-    MoviesTopAppBar(rememberNavController())
+    MoviesTopAppBar(rememberNavController(), true)
 }

@@ -1,18 +1,18 @@
-package com.wisnitech.repository.repositories.movie
+package com.wisnitech.repository.repositories.tv
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.wisnitech.source.remote.model.NetworkMovie
-import com.wisnitech.source.remote.source.movie.MovieNetworkDataSource
-import com.wisnitech.repository.utils.ApiResult
-import com.wisnitech.repository.utils.handleApiCall
 import com.wisnitech.repository.model.Movie
 import com.wisnitech.repository.model.asExternalModel
+import com.wisnitech.repository.utils.ApiResult
+import com.wisnitech.repository.utils.handleApiCall
+import com.wisnitech.source.remote.model.NetworkMovie
+import com.wisnitech.source.remote.source.tv.TvNetworkDataSource
 import java.io.IOException
 
-internal class MoviePagingSource(
-    private val call: MoviesCall,
-    private val movieDataSource: MovieNetworkDataSource
+internal class TvPagingSource(
+    private val call: TvCall,
+    private val tvNetworkDataSource: TvNetworkDataSource
 ) : PagingSource<Int, Movie>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
@@ -21,10 +21,8 @@ internal class MoviePagingSource(
 
             val response = handleApiCall {
                 when (call) {
-                    MoviesCall.NOW_PLAYING -> movieDataSource.getNowPlayingMovies(page)
-                    MoviesCall.TOP_RATED -> movieDataSource.getTopRatedMovies(page)
-                    MoviesCall.POPULAR -> movieDataSource.getPopularMovies(page)
-                    MoviesCall.UPCOMING -> movieDataSource.getUpcomingMovies(page)
+                    TvCall.POPULAR -> tvNetworkDataSource.getPopularTvShows(page)
+                    TvCall.TOP_RATED -> tvNetworkDataSource.getTopRatedTvShows(page)
                 }
             }
 
@@ -50,9 +48,7 @@ internal class MoviePagingSource(
     }
 }
 
-internal enum class MoviesCall {
-    NOW_PLAYING,
-    TOP_RATED,
+internal enum class TvCall {
     POPULAR,
-    UPCOMING
+    TOP_RATED
 }
